@@ -1,0 +1,5 @@
+type Context {
+    id:Int
+    context: String
+}
+

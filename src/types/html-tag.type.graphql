@@ -1,0 +1,12 @@
+type HtmlTag {
+    id:Int
+    content:String!
+}
+
+type Query {
+    getHtmlTags:[HtmlTag]
+}
+
+type Mutation {
+    addHtmlTag(content: String!):HtmlTag
+}

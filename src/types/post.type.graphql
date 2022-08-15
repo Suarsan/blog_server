@@ -1,0 +1,96 @@
+type Post {
+    id:Int
+    createdAt:String
+    updatedAt:String
+    enabled: Boolean
+    slug:String!
+    author: Author
+    title:String!
+    metaTitle:String
+    metaDescription:String
+    image:String
+    readTime:Int
+    type:PostType!
+    analysis:Analysis
+    paragraphs:[Paragraph]
+    tags:[Tag]
+    parent: Post
+    children: [Post]
+}
+
+type Query {
+    getPosts:[Post!]
+    getPostBySlug(slug: String!): Post
+    getEnabledPostBySlug(slug: String!): Post
+    getPostsByParent(parentId: Int): [Post]
+    getPostsByAuthor(firstname: String!, lastname: String!): [Post]
+    getPostsByType(typeId: Int!): [Post]
+    getPostsByTag(tag: String): [Post]
+    getPostsByTags(tags: [String]): [Post]
+    getPostsByAnyTags(tags: [String]): [Post]
+    getPostsByScore:[Post]
+}
+
+type Mutation {
+    addPost(addPostInput: AddPostInput!):Post!
+    updatePost(updatePostInput: UpdatePostInput!):Post!
+    deletePost(deletePostInput: DeletePostInput): Post!
+}
+
+input AddPostInput {
+    context: String!
+    slug:String!
+    title:String!
+    metaTitle:String
+    metaDescription:String
+    image:String
+    readTime:Int
+    type: TypeInput!
+    analysis:AnalysisInput
+    paragraphs:[ParagraphInput]
+    tags:[TagInput]
+    parentId: Int
+}
+
+input UpdatePostInput {
+    context: String!
+    slug:String!
+    title:String!
+    metaTitle:String
+    metaDescription:String
+    image:String
+    readTime:Int
+    type:TypeInput!
+    analysis:AnalysisInput
+    parentId: Int
+    paragraphs:[ParagraphInput]
+    tags:[TagInput]
+}
+input DeletePostInput {
+    context:String!
+    slug: String!
+}
+input TypeInput {
+    id:ID!
+    content:String
+}
+input AnalysisInput {
+    score:String
+    pros:String
+    cons:String
+}
+input ParagraphInput {
+    id:ID
+    content:String
+    classes:String
+    htmlTag: HtmlTagInput
+    position: Int!
+}
+input HtmlTagInput {
+    id: ID
+    content:String
+}
+input TagInput {
+    id: ID!
+    content:String
+}

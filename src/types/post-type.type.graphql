@@ -1,0 +1,12 @@
+type PostType {
+    id:Int
+    content:String!
+}
+
+type Query {
+    getPostTypes:[PostType]
+}
+
+type Mutation {
+    addPostType(content: String!):PostType
+}

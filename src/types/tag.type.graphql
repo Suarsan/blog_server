@@ -1,0 +1,8 @@
+type Tag {
+    id:Int
+    content:String!
+}
+
+type Query {
+    getTags: [Tag]
+}

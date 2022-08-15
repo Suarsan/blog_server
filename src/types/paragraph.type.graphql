@@ -1,0 +1,7 @@
+type Paragraph {
+    id:Int
+    content:String!
+    htmlTag:HtmlTag!
+    classes:String
+    position: Int!
+}
