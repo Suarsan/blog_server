@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { instanceToPlain } from 'class-transformer';
-import { mockedPost, mockedPosts, mockedPostsByAuthorLeonXIII, mockedPostsByType4, mockedPostWithParent112 } from 'src/mock/posts.mock';
+import { mockedPost, mockedPosts, mockedPostsByAuthorLeonXIII, mockedPostsByTagRestaurants, mockedPostsByType4, mockedPostWithParent112 } from 'src/mock/posts.mock';
 import { DataSourceOptions } from "typeorm";
 import { AuthorsModule } from '../authors/authors.module';
 import { Author } from '../authors/entities';
@@ -191,6 +191,34 @@ describe('getPostbySlug', () => {
         it('should return an array of posts by type', async () => {
             const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByType4));
             const response = await postsResolver.getPostsByType(4);
+            response.forEach(r => {
+                delete r.createdAt;
+                delete r.updatedAt;
+                delete r.author.createdAt;
+                delete r.author.updatedAt;
+                delete r.parent?.createdAt;
+                delete r.parent?.updatedAt;
+                r.paragraphs.forEach(p => {
+                    delete p.htmlTag.createdAt;
+                    delete p.htmlTag.updatedAt;
+                });
+                r.tags.forEach(t => {
+                    delete t.createdAt;
+                    delete t.updatedAt;
+                });
+                r?.children.forEach(c => {
+                    delete c.createdAt;
+                    delete c.updatedAt;
+                });
+            });
+            expect(instanceToPlain(response)).toStrictEqual(await result);
+        });
+    });
+   
+    describe('getPostsByTag', () => {
+        it('should return an array of posts by tag', async () => {
+            const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByTagRestaurants));
+            const response = await postsResolver.getPostsByTag('restaurants');
             response.forEach(r => {
                 delete r.createdAt;
                 delete r.updatedAt;
