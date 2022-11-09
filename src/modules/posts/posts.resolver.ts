@@ -35,14 +35,14 @@ export class PostsResolver {
         return post;
     }
     
-    // @Query('getPostsByParent')
-    // async getPostsByParent(): Promise<Array<Post>> {
-    //     // const htmltags: Array<HtmlTag> = await this.postsService.getHtmlTags();
+    @Query('getPostsByParent')
+    async getPostsByParent(@Args('parentId') parentId: number): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsService.getPostsByParent(parentId);
 
-    //     // if (!(htmltags.length > 0)) throw new ApolloError('Html tags not found');
+        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
 
-    //     // return htmltags;
-    // }
+        return posts;
+    }
     
     // @Query('getPostsByAuthor')
     // async getPostsByAuthor(): Promise<Array<Post>> {

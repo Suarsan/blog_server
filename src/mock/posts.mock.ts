@@ -10969,3 +10969,164 @@ export const mockedPost: Post = {
     }
   ]
 };
+
+export const mockedPostWithParent112: Post[] = [
+  {
+    "id": 92,
+    "enabled": true,
+    "slug": "visitar-la-vera-en-otono",
+    "author": {
+      "id": 1,
+      "email": "javiersuarsan@gmail.com",
+      "password": "$2b$12$bgstymRKHUGcmIWzPB1v1Oo8GwWyfuNA8ZTNPa1Z8hWBH./0.S5a2",
+      "firstname": "León",
+      "lastname": "XIII"
+    },
+    "title": "Visitar La Vera en Otoño",
+    "metaTitle": null,
+    "metaDescription": null,
+    "image": "https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2018/10/08/15389878418400_640x0.jpg",
+    "readTime": null,
+    "type": {
+      "id": 2,
+      "content": "SEASON"
+    },
+    "tags": [],
+    "analysis": {
+      "id": 653,
+      "score": null,
+      "pros": null,
+      "cons": null
+    },
+    "paragraphs": [
+      {
+        "id": 6038,
+        "content": "Tips para visitar la vera en otoño",
+        "htmlTag": {
+          "id": 1,
+          "content": "paragraph"
+        },
+        "classes": null,
+        "position": 1
+      }
+    ],
+    "parent": {
+      "id": 112,
+      "enabled": true,
+      "slug": "viajar-a-la-vera-en-cada-estacion",
+      "title": "Viajar a La Vera según la estación del año",
+      "metaTitle": null,
+      "metaDescription": null,
+      "image": "https://www.centroculturalmigueldelibes.com/assets/arbol-630x630.jpg",
+      "readTime": null
+    },
+    "children": []
+  },
+  {
+    "id": 91,
+    "enabled": true,
+    "slug": "visitar-la-vera-en-verano",
+    "author": {
+      "id": 1,
+      "email": "javiersuarsan@gmail.com",
+      "password": "$2b$12$bgstymRKHUGcmIWzPB1v1Oo8GwWyfuNA8ZTNPa1Z8hWBH./0.S5a2",
+      "firstname": "León",
+      "lastname": "XIII"
+    },
+    "title": "Visitar La Vera en Verano",
+    "metaTitle": null,
+    "metaDescription": null,
+    "image": "https://www.casarurallasolana.com/wp-content/uploads/2016/08/13435300_10154217109647278_7335729604587112084_n.jpg",
+    "readTime": null,
+    "type": {
+      "id": 2,
+      "content": "SEASON"
+    },
+    "tags": [
+      {
+        "id": 1,
+        "content": "home"
+      }
+    ],
+    "analysis": {
+      "id": 654,
+      "score": null,
+      "pros": null,
+      "cons": null
+    },
+    "paragraphs": [
+      {
+        "id": 6039,
+        "content": "Tips para visitar la vera en verano",
+        "htmlTag": {
+          "id": 1,
+          "content": "paragraph"
+        },
+        "classes": null,
+        "position": 1
+      }
+    ],
+    "parent": {
+      "id": 112,
+      "enabled": true,
+      "slug": "viajar-a-la-vera-en-cada-estacion",
+      "title": "Viajar a La Vera según la estación del año",
+      "metaTitle": null,
+      "metaDescription": null,
+      "image": "https://www.centroculturalmigueldelibes.com/assets/arbol-630x630.jpg",
+      "readTime": null
+    },
+    "children": []
+  },
+  {
+    "id": 90,
+    "enabled": true,
+    "slug": "visitar-la-vera-en-primavera",
+    "author": {
+      "id": 1,
+      "email": "javiersuarsan@gmail.com",
+      "password": "$2b$12$bgstymRKHUGcmIWzPB1v1Oo8GwWyfuNA8ZTNPa1Z8hWBH./0.S5a2",
+      "firstname": "León",
+      "lastname": "XIII"
+    },
+    "title": "Visitar La Vera en Primavera",
+    "metaTitle": null,
+    "metaDescription": null,
+    "image": "https://caballoslavera.com/wp-content/uploads/2018/05/primavera.jpg",
+    "readTime": null,
+    "type": {
+      "id": 2,
+      "content": "SEASON"
+    },
+    "tags": [],
+    "analysis": {
+      "id": 655,
+      "score": null,
+      "pros": null,
+      "cons": null
+    },
+    "paragraphs": [
+      {
+        "id": 6040,
+        "content": "Tips para visitar la vera en primavera",
+        "htmlTag": {
+          "id": 1,
+          "content": "paragraph"
+        },
+        "classes": null,
+        "position": 1
+      }
+    ],
+    "parent": {
+      "id": 112,
+      "enabled": true,
+      "slug": "viajar-a-la-vera-en-cada-estacion",
+      "title": "Viajar a La Vera según la estación del año",
+      "metaTitle": null,
+      "metaDescription": null,
+      "image": "https://www.centroculturalmigueldelibes.com/assets/arbol-630x630.jpg",
+      "readTime": null
+    },
+    "children": []
+  }
+];

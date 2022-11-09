@@ -43,6 +43,18 @@ export class PostsService {
         return post;
     }
 
+    async getPostsByParent(parentId: number): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsRepository.find({
+            relations: ['author', 'type', 'paragraphs', 'paragraphs.htmlTag', 'analysis', 'parent', 'children', 'tags'],
+            order: {
+                paragraphs: { position: "ASC" }
+            },        
+            where: { parent: { id: parentId }, enabled: true },
+        });
+
+        return posts;
+    }
+
     // async getHtmlTags(): Promise<Array<HtmlTag>> {
     //     const authors: Array<HtmlTag> = await this.htmltagsRepository.find();
 

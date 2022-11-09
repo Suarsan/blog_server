@@ -1,14 +1,14 @@
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Analysis, HtmlTag, Paragraph, Post, Tag, Type } from './entities';
-import { PostsResolver } from './posts.resolver';
-import { PostsService } from './posts.service';
-import { DataSourceOptions } from "typeorm";
-import { PostsModule } from './posts.module';
-import { mockedPost, mockedPosts } from 'src/mock/posts.mock';
 import { instanceToPlain } from 'class-transformer';
+import { mockedPost, mockedPosts, mockedPostWithParent112 } from 'src/mock/posts.mock';
+import { DataSourceOptions } from "typeorm";
 import { AuthorsModule } from '../authors/authors.module';
 import { Author } from '../authors/entities';
+import { Analysis, HtmlTag, Paragraph, Post, Tag, Type } from './entities';
+import { PostsModule } from './posts.module';
+import { PostsResolver } from './posts.resolver';
+import { PostsService } from './posts.service';
 
 describe('PostsResolver', () => {
     let postsResolver: PostsResolver;
@@ -106,7 +106,7 @@ describe('getPostbySlug', () => {
   });
 
   describe('getEnabledPostbySlug', () => {
-      it('should return a post by slug', async () => {
+      it('should return a enabled post by slug', async () => {
           const result = new Promise<Post>((res, rej) => res(mockedPost));
           const response = await postsResolver.getEnabledPostBySlug('medios-de-transporte-para-recorrer-la-vera');
           delete response.createdAt;
@@ -131,4 +131,31 @@ describe('getPostbySlug', () => {
       });
     });
 
+    describe('getPosts', () => {
+        it('should return an array of posts by parent', async () => {
+            const result = new Promise<Array<Post>>((res, rej) => res(mockedPostWithParent112));
+            const response = await postsResolver.getPostsByParent(112);
+            response.forEach(r => {
+                delete r.createdAt;
+                delete r.updatedAt;
+                delete r.author.createdAt;
+                delete r.author.updatedAt;
+                delete r.parent?.createdAt;
+                delete r.parent?.updatedAt;
+                r.paragraphs.forEach(p => {
+                    delete p.htmlTag.createdAt;
+                    delete p.htmlTag.updatedAt;
+                });
+                r.tags.forEach(t => {
+                    delete t.createdAt;
+                    delete t.updatedAt;
+                });
+                r?.children.forEach(c => {
+                    delete c.createdAt;
+                    delete c.updatedAt;
+                });
+            });
+            expect(instanceToPlain(response)).toStrictEqual(await result);
+        });
+    });
 });
