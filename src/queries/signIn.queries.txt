@@ -1,0 +1,18 @@
+query {
+  signIn(
+    signInInput: {
+      email: "asd@asd.com",
+      password: "test"
+    }
+  ) {
+    id
+    email
+    password
+    firstname
+    lastname
+    context {
+      id
+      context
+    }
+  }
+}

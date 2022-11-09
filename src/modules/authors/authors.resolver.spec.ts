@@ -8,7 +8,7 @@ import { DataSourceOptions } from "typeorm";
 import { Context } from 'src/modules/contexts/entities';
 import { ContextsService } from '../contexts/contexts.service';
 import { Analysis, HtmlTag, Paragraph, Post, Type } from '../posts/entities';
-import { mockedAuthors } from 'src/mock/authors.mock';
+import { mockedAuthors, mockedSignIn } from 'src/mock/authors.mock';
 import { instanceToPlain } from 'class-transformer';
 import { PostsModule } from '../posts/posts.module';
 
@@ -52,16 +52,31 @@ describe('AuthorsResolver', () => {
         authorsResolver = module.get<AuthorsResolver>(AuthorsResolver);
     });
 
-  describe('getAuthors', () => {
-    it('should return an array of authors', async () => {
-        const result = new Promise<Array<Author>>((res, rej) => res(mockedAuthors));
-        const response = await authorsResolver.getAuthors();
-        response.forEach(r => {
-            delete r.createdAt;
-            delete r.updatedAt;
+    describe('getAuthors', () => {
+        it('should be defined', () => {
+            expect(authorsResolver).toBeDefined();
+            expect(authorsService).toBeDefined();
         });
 
-        expect(instanceToPlain(response)).toStrictEqual(await result);
+        it('should return an array of authors', async () => {
+            const result = new Promise<Array<Author>>((res, rej) => res(mockedAuthors));
+            const response = await authorsResolver.getAuthors();
+            response.forEach(r => {
+                delete r.createdAt;
+                delete r.updatedAt;
+            });
+
+            expect(instanceToPlain(response)).toStrictEqual(await result);
+        });
+        
+        it('should signin', async () => {
+            const result = new Promise<Author>((res, rej) => res(mockedSignIn));
+            const response = await authorsResolver.signIn({email: 'asd@asd.com', password: 'test'});
+            delete response.createdAt;
+            delete response.updatedAt;
+            delete response.context;
+
+            expect(instanceToPlain(response)).toStrictEqual(await result);
+        });
     });
-  });
 });

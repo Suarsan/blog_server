@@ -11,8 +11,16 @@ export const mockedAuthors: Author[] =  [
     {
         "id": 24,
         "email": "asd@asd.com",
-        "password": "$2b$12$FuCsOtPDNoaSws00VGkns.LG1mq/djVT7BFAzP0HNmNVh/R0hFZ1i",
+        "password": "$2a$12$5gKMFRK82VZx.jfX8ZcA6.IGEhBwIvCXM2vqW5gU61BM909LNdzd6",
         "firstname": "asd",
         "lastname": "asd"
     }
 ];
+
+export const mockedSignIn = {
+    "id": 24,
+    "email": "asd@asd.com",
+    "password": "$2a$12$5gKMFRK82VZx.jfX8ZcA6.IGEhBwIvCXM2vqW5gU61BM909LNdzd6",
+    "firstname": "asd",
+    "lastname": "asd"
+};
