@@ -1,0 +1,64 @@
+query {
+    getPosts {
+      id
+      enabled
+      slug
+      author {
+        id
+        email
+        password
+        firstname
+        lastname
+      }
+        title
+      metaTitle
+      metaDescription
+      image
+      readTime
+      tags {
+        id
+        content
+      }
+      type {
+        id
+        content
+      }
+      analysis {
+        id
+        score
+        pros
+        cons
+      }
+      paragraphs {
+        id
+        content
+        htmlTag {
+          id
+          content
+        }
+        classes
+        position
+      }
+      parent {
+        id
+        enabled
+        slug
+        title
+        metaTitle
+        metaDescription
+        image
+        readTime
+      }
+      children {
+        id
+        enabled
+        slug
+        title
+        metaTitle
+        metaDescription
+        image
+        readTime
+      }
+    }
+  }# Write your query or mutation here
+  

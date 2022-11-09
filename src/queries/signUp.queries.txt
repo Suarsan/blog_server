@@ -1,0 +1,13 @@
+mutation {
+  signUp(
+    signUpInput: {
+      email: "asd@asd.com"
+      password: "asdasd"
+      firstname: ""
+      lastname: ""
+    }
+  ){
+    email
+    password
+  }
+}

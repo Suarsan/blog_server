@@ -1,0 +1,9 @@
+query {
+  getAuthors {
+    id
+    email
+    password
+    firstname
+    lastname
+  }
+}
