@@ -102,4 +102,28 @@ export class PostsService {
 
         return posts;
     }
+
+    async getPostsByTags(tags: Array<string>): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsRepository.find({
+            relations: ['author', 'type', 'paragraphs', 'paragraphs.htmlTag', 'analysis', 'parent', 'children', 'tags'],
+            order: {
+                paragraphs: { position: "ASC" }
+            },        
+            where: { tags: { content: In(tags) }, enabled: true }
+        });
+
+        return posts;
+    }
+
+    async getPostsByScore(): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsRepository.find({
+            relations: ['author', 'type', 'paragraphs', 'paragraphs.htmlTag', 'analysis', 'parent', 'children', 'tags'],
+            order: {
+                analysis: { score: "ASC" },
+                paragraphs: { position: "ASC" }
+            }
+        });
+
+        return posts;
+    }
 }

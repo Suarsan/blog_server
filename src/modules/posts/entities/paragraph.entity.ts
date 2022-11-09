@@ -1,5 +1,5 @@
 import { HtmlTag, Post } from "src/modules/posts/entities";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('paragraph')
 export class Paragraph {
@@ -15,6 +15,12 @@ export class Paragraph {
     
     @Column({ nullable: false })
     position: number;
+
+    @CreateDateColumn()
+    createdAt?: Date;
+    
+    @UpdateDateColumn()
+    updatedAt?: Date;
 
     @ManyToOne(() => Post, post => post.paragraphs)
     @JoinColumn({ name: 'post_id' })

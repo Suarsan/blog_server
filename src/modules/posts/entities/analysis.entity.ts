@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Post } from "./post.entity";
 
 @Entity('analysis')
@@ -7,14 +7,20 @@ export class Analysis {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false})
+    @Column({ nullable: true})
     score: string;
 
-    @Column({ nullable: false})
+    @Column({ nullable: true})
     pros: string;
 
-    @Column({ nullable: false})
+    @Column({ nullable: true})
     cons: string;
+
+    @CreateDateColumn()
+    createdAt?: Date;
+    
+    @UpdateDateColumn()
+    updatedAt?: Date;
 
     @OneToOne(() => Post, post => post.analysis)
     @JoinColumn({ name: 'post_id'})

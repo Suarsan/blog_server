@@ -79,25 +79,24 @@ export class PostsResolver {
 
         return posts;
     }
-
     
-    // @Query('getPostsByAnyTags')
-    // async getPostsByAnyTags(): Promise<Array<Post>> {
-    //     // const htmltags: Array<HtmlTag> = await this.postsService.getHtmlTags();
+    @Query('getPostsByTags')
+    async getPostsByTags(@Args('tags') tags: Array<string>): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsService.getPostsByTags(tags);
 
-    //     // if (!(htmltags.length > 0)) throw new ApolloError('Html tags not found');
+        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
 
-    //     // return htmltags;
-    // }
+        return posts;
+    }
 
-    // @Query('getPostsByScore')
-    // async getPostsByScore(): Promise<Array<Post>> {
-    //     // const htmltags: Array<HtmlTag> = await this.postsService.getHtmlTags();
+    @Query('getPostsByScore')
+    async getPostsByScore(): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsService.getPostsByScore();
 
-    //     // if (!(htmltags.length > 0)) throw new ApolloError('Html tags not found');
+        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
 
-    //     // return htmltags;
-    // }
+        return posts;
+    }
 
     // @Mutation('addPost')
     // async addPost(@Args('post') post: string): Promise<Post> {
