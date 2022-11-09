@@ -6,10 +6,10 @@ services:
     restart: always
     environment:
       POSTGRES_DB: postgres
-      POSTGRES_USER: admin
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: my-weak-password
     volumes:
-      - /var/lib/postgressql/data
+      - c:/postgres/db:/var/lib/postgressql/data
     ports:
       - 5432:5432
   blog_server_pgadmin:
@@ -23,6 +23,6 @@ services:
     ports: 
       - 8080:80
     volumes:
-      - /var/lib/pgadmin
+      - c:/postgres/pgadmin:/var/lib/pgadmin
     depends_on:
       - blog_server_db

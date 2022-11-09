@@ -1,6 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Context } from "src/modules/contexts/entities";
+import { Post } from "src/modules/posts/entities";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity()
+@Entity('author')
 export class Author {
     
     @PrimaryGeneratedColumn()
@@ -12,16 +14,22 @@ export class Author {
     @Column({ nullable: false})
     password: string;
 
-    @Column({ nullable: true})
+    @Column({ nullable: false})
     firstname: string
 
-    @Column({ nullable: true})
+    @Column({ nullable: false})
     lastname: string
 
     @CreateDateColumn()
-    created_at: Date;
+    createdAt?: Date | string;
     
     @UpdateDateColumn()
-    updated_at: Date;
+    updatedAt?: Date | string;
+    
+    @OneToMany(() => Context, context => context.author)
+    context?: Context;
+
+    @OneToMany(() => Post, post => post.author)
+    posts?: Array<Post>;
     
 }

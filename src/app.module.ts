@@ -4,6 +4,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AuthorsModule } from './modules/authors/authors.module';
 import { DatabaseModule } from './modules/database/database.module';
+import { ContextsModule } from './modules/contexts/contexts.module';
+import { PostsModule } from './modules/posts/posts.module';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { DatabaseModule } from './modules/database/database.module';
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql']
     }),
-    AuthorsModule
+    AuthorsModule,
+    ContextsModule,
+    PostsModule
   ],
   controllers: [],
   providers: [],

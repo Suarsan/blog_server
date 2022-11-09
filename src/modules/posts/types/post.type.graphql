@@ -10,7 +10,7 @@ type Post {
     metaDescription:String
     image:String
     readTime:Int
-    type:PostType!
+    type:Type!
     analysis:Analysis
     paragraphs:[Paragraph]
     tags:[Tag]
@@ -91,6 +91,6 @@ input HtmlTagInput {
     content:String
 }
 input TagInput {
-    id: ID!
+    id: ID
     content:String
 }

@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Author } from './entities';
+import { security } from 'src/utils/security.utils';
 
 @Injectable()
 export class AuthorsService {
@@ -11,22 +12,25 @@ export class AuthorsService {
     async signUp(email, password, firstname, lastname): Promise<Author> {
         const author: Author = await this.authorRepository.create({
             email,
-            password,
+            password: await security.hash(password),
             firstname,
-            lastname
+            lastname,
+            createdAt: new Date(),
+            updatedAt: new Date()
         });
 
         const savedAuthor = this.authorRepository.save(author);
 
-        if (!savedAuthor) {
-            throw new NotFoundException('Resource not found');
-        }
-
         return savedAuthor;
     }
     
+    async getAuthorByEmail(email: string): Promise<Author> {
+        const author: Author = await this.authorRepository.findOne({ where: { email } });
+        return author;
+    }
+
     async getAuthors(): Promise<Array<Author>> {
-        const authors = await this.authorRepository.find();
+        const authors: Array<Author> = await this.authorRepository.find();
 
         return authors;
     }
