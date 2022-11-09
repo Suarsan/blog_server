@@ -6,6 +6,7 @@ import { HtmlTagsService } from './htmlTags.service';
 import { PostsResolver } from './posts.resolver';
 import { PostsService } from './posts.service';
 import { TypesResolver } from './type.resolver';
+import { TypesResolver } from './types.resolver';
 import { TypesService } from './types.service';
 
 @Module({
@@ -25,7 +26,7 @@ import { TypesService } from './types.service';
     HtmlTagsResolver,
     HtmlTagsService,
     TypesResolver,
-    TypesService
+    TypesService,
   ]
 })
 export class PostsModule {}

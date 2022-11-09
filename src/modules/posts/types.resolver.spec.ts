@@ -7,7 +7,7 @@ import { AuthorsModule } from '../authors/authors.module';
 import { Author } from '../authors/entities';
 import { Analysis, HtmlTag, Paragraph, Post, Tag, Type } from './entities';
 import { PostsModule } from './posts.module';
-import { TypesResolver } from './type.resolver';
+import { TypesResolver } from './types.resolver';
 import { TypesService } from './types.service';
 
 describe('TypesResolver', () => {
