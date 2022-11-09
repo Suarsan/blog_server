@@ -1,0 +1,6 @@
+mutation {
+  addHtmlTag(content: "borrar") {
+    id
+    content
+  }
+}
