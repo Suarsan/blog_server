@@ -1,0 +1,6 @@
+query {
+  getHtmlTags {
+    id
+   	content
+  }
+}

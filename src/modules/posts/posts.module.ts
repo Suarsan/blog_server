@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Analysis, HtmlTag, Paragraph, Post, Tag, Type } from './entities';
+import { HtmlTagsResolver } from './htmlTags.resolver';
+import { HtmlTagsService } from './htmlTags.service';
 import { PostsResolver } from './posts.resolver';
 import { PostsService } from './posts.service';
 
@@ -17,7 +19,9 @@ import { PostsService } from './posts.service';
   ],
   providers: [
     PostsService,
-    PostsResolver
+    PostsResolver,
+    HtmlTagsResolver,
+    HtmlTagsService
   ]
 })
 export class PostsModule {}

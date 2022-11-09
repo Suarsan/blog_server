@@ -34,8 +34,7 @@ describe('PostsResolver', () => {
                         } as DataSourceOptions;
                         return dbConfig;
                     }
-                }
-                ),
+                }),
                 TypeOrmModule.forFeature([
                     Analysis,
                     Paragraph,
@@ -50,6 +49,10 @@ describe('PostsResolver', () => {
         }).compile();
         postsService = module.get<PostsService>(PostsService);
         postsResolver = module.get<PostsResolver>(PostsResolver);
+    });
+
+    it('should be defined', () => {
+        expect(postsResolver).toBeDefined();
     });
 
     it('should return an array of posts', async () => {
