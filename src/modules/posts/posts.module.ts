@@ -5,6 +5,8 @@ import { HtmlTagsResolver } from './htmlTags.resolver';
 import { HtmlTagsService } from './htmlTags.service';
 import { PostsResolver } from './posts.resolver';
 import { PostsService } from './posts.service';
+import { TypesResolver } from './type.resolver';
+import { TypesService } from './types.service';
 
 @Module({
   imports: [
@@ -21,7 +23,9 @@ import { PostsService } from './posts.service';
     PostsService,
     PostsResolver,
     HtmlTagsResolver,
-    HtmlTagsService
+    HtmlTagsService,
+    TypesResolver,
+    TypesService
   ]
 })
 export class PostsModule {}
