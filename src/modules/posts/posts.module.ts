@@ -5,7 +5,8 @@ import { HtmlTagsResolver } from './htmlTags.resolver';
 import { HtmlTagsService } from './htmlTags.service';
 import { PostsResolver } from './posts.resolver';
 import { PostsService } from './posts.service';
-import { TypesResolver } from './type.resolver';
+import { TagsResolver } from './tags.resolver';
+import { TagsService } from './tags.service';
 import { TypesResolver } from './types.resolver';
 import { TypesService } from './types.service';
 
@@ -27,6 +28,8 @@ import { TypesService } from './types.service';
     HtmlTagsService,
     TypesResolver,
     TypesService,
+    TagsResolver,
+    TagsService
   ]
 })
 export class PostsModule {}
