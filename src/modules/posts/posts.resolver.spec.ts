@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { instanceToPlain } from 'class-transformer';
-import { mockedPost, mockedPosts, mockedPostsByAuthorLeonXIII, mockedPostsByTagRestaurants, mockedPostsByType4, mockedPostWithParent112 } from 'src/mock/posts.mock';
+import { mockedPost, mockedPosts, mockedPostsByAuthorLeonXIII, mockedPostsByTagRestaurants, mockedPostsByTagsRestaurantAndNone, mockedPostsByType4, mockedPostWithParent112 } from 'src/mock/posts.mock';
 import { DataSourceOptions } from "typeorm";
 import { AuthorsModule } from '../authors/authors.module';
 import { Author } from '../authors/entities';
@@ -33,7 +33,8 @@ describe('PostsResolver', () => {
                             logging: true
                         } as DataSourceOptions;
                         return dbConfig;
-                    }}
+                    }
+                }
                 ),
                 TypeOrmModule.forFeature([
                     Analysis,
@@ -43,15 +44,14 @@ describe('PostsResolver', () => {
                     HtmlTag,
                     Tag,
                     Author
-                  ])
+                ])
             ],
             providers: [PostsResolver, PostsService]
         }).compile();
         postsService = module.get<PostsService>(PostsService);
         postsResolver = module.get<PostsResolver>(PostsResolver);
     });
-    
-describe('getPosts', () => {
+
     it('should return an array of posts', async () => {
         const result = new Promise<Array<Post>>((res, rej) => res(mockedPosts));
         const response = await postsResolver.getPosts();
@@ -77,9 +77,7 @@ describe('getPosts', () => {
         });
         expect(instanceToPlain(response)).toStrictEqual(await result);
     });
-});
 
-describe('getPostbySlug', () => {
     it('should return a post by slug', async () => {
         const result = new Promise<Post>((res, rej) => res(mockedPost));
         const response = await postsResolver.getPostBySlug('medios-de-transporte-para-recorrer-la-vera');
@@ -103,143 +101,158 @@ describe('getPostbySlug', () => {
         });
         expect(instanceToPlain(response)).toStrictEqual(await result);
     });
-  });
 
-  describe('getEnabledPostbySlug', () => {
-      it('should return a enabled post by slug', async () => {
-          const result = new Promise<Post>((res, rej) => res(mockedPost));
-          const response = await postsResolver.getEnabledPostBySlug('medios-de-transporte-para-recorrer-la-vera');
-          delete response.createdAt;
-          delete response.updatedAt;
-          delete response.author.createdAt;
-          delete response.author.updatedAt;
-          delete response.parent?.createdAt;
-          delete response.parent?.updatedAt;
-          response.paragraphs.forEach(p => {
-              delete p.htmlTag.createdAt;
-              delete p.htmlTag.updatedAt;
-          });
-          response.tags.forEach(t => {
-              delete t.createdAt;
-              delete t.updatedAt;
-          });
-          response?.children.forEach(c => {
-              delete c.createdAt;
-              delete c.updatedAt;
-          });
-          expect(instanceToPlain(response)).toStrictEqual(await result);
-      });
+    it('should return a enabled post by slug', async () => {
+        const result = new Promise<Post>((res, rej) => res(mockedPost));
+        const response = await postsResolver.getEnabledPostBySlug('medios-de-transporte-para-recorrer-la-vera');
+        delete response.createdAt;
+        delete response.updatedAt;
+        delete response.author.createdAt;
+        delete response.author.updatedAt;
+        delete response.parent?.createdAt;
+        delete response.parent?.updatedAt;
+        response.paragraphs.forEach(p => {
+            delete p.htmlTag.createdAt;
+            delete p.htmlTag.updatedAt;
+        });
+        response.tags.forEach(t => {
+            delete t.createdAt;
+            delete t.updatedAt;
+        });
+        response?.children.forEach(c => {
+            delete c.createdAt;
+            delete c.updatedAt;
+        });
+        expect(instanceToPlain(response)).toStrictEqual(await result);
     });
 
-    describe('getPostsByParent', () => {
-        it('should return an array of posts by parent', async () => {
-            const result = new Promise<Array<Post>>((res, rej) => res(mockedPostWithParent112));
-            const response = await postsResolver.getPostsByParent(112);
-            response.forEach(r => {
-                delete r.createdAt;
-                delete r.updatedAt;
-                delete r.author.createdAt;
-                delete r.author.updatedAt;
-                delete r.parent?.createdAt;
-                delete r.parent?.updatedAt;
-                r.paragraphs.forEach(p => {
-                    delete p.htmlTag.createdAt;
-                    delete p.htmlTag.updatedAt;
-                });
-                r.tags.forEach(t => {
-                    delete t.createdAt;
-                    delete t.updatedAt;
-                });
-                r?.children.forEach(c => {
-                    delete c.createdAt;
-                    delete c.updatedAt;
-                });
+    it('should return an array of posts by parent', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostWithParent112));
+        const response = await postsResolver.getPostsByParent(112);
+        response.forEach(r => {
+            delete r.createdAt;
+            delete r.updatedAt;
+            delete r.author.createdAt;
+            delete r.author.updatedAt;
+            delete r.parent?.createdAt;
+            delete r.parent?.updatedAt;
+            r.paragraphs.forEach(p => {
+                delete p.htmlTag.createdAt;
+                delete p.htmlTag.updatedAt;
             });
-            expect(instanceToPlain(response)).toStrictEqual(await result);
+            r.tags.forEach(t => {
+                delete t.createdAt;
+                delete t.updatedAt;
+            });
+            r?.children.forEach(c => {
+                delete c.createdAt;
+                delete c.updatedAt;
+            });
         });
+        expect(instanceToPlain(response)).toStrictEqual(await result);
     });
-    
-    describe('getPostsByAuthor', () => {
-        it('should return an array of posts by author', async () => {
-            const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByAuthorLeonXIII));
-            const response = await postsResolver.getPostsByAuthor('León', 'XIII');
-            response.forEach(r => {
-                delete r.createdAt;
-                delete r.updatedAt;
-                delete r.author.createdAt;
-                delete r.author.updatedAt;
-                delete r.parent?.createdAt;
-                delete r.parent?.updatedAt;
-                r.paragraphs.forEach(p => {
-                    delete p.htmlTag.createdAt;
-                    delete p.htmlTag.updatedAt;
-                });
-                r.tags.forEach(t => {
-                    delete t.createdAt;
-                    delete t.updatedAt;
-                });
-                r?.children.forEach(c => {
-                    delete c.createdAt;
-                    delete c.updatedAt;
-                });
+
+    it('should return an array of posts by author', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByAuthorLeonXIII));
+        const response = await postsResolver.getPostsByAuthor('León', 'XIII');
+        response.forEach(r => {
+            delete r.createdAt;
+            delete r.updatedAt;
+            delete r.author.createdAt;
+            delete r.author.updatedAt;
+            delete r.parent?.createdAt;
+            delete r.parent?.updatedAt;
+            r.paragraphs.forEach(p => {
+                delete p.htmlTag.createdAt;
+                delete p.htmlTag.updatedAt;
             });
-            expect(instanceToPlain(response)).toStrictEqual(await result);
+            r.tags.forEach(t => {
+                delete t.createdAt;
+                delete t.updatedAt;
+            });
+            r?.children.forEach(c => {
+                delete c.createdAt;
+                delete c.updatedAt;
+            });
         });
+        expect(instanceToPlain(response)).toStrictEqual(await result);
     });
-    
-    describe('getPostsByType', () => {
-        it('should return an array of posts by type', async () => {
-            const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByType4));
-            const response = await postsResolver.getPostsByType(4);
-            response.forEach(r => {
-                delete r.createdAt;
-                delete r.updatedAt;
-                delete r.author.createdAt;
-                delete r.author.updatedAt;
-                delete r.parent?.createdAt;
-                delete r.parent?.updatedAt;
-                r.paragraphs.forEach(p => {
-                    delete p.htmlTag.createdAt;
-                    delete p.htmlTag.updatedAt;
-                });
-                r.tags.forEach(t => {
-                    delete t.createdAt;
-                    delete t.updatedAt;
-                });
-                r?.children.forEach(c => {
-                    delete c.createdAt;
-                    delete c.updatedAt;
-                });
+
+    it('should return an array of posts by type', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByType4));
+        const response = await postsResolver.getPostsByType(4);
+        response.forEach(r => {
+            delete r.createdAt;
+            delete r.updatedAt;
+            delete r.author.createdAt;
+            delete r.author.updatedAt;
+            delete r.parent?.createdAt;
+            delete r.parent?.updatedAt;
+            r.paragraphs.forEach(p => {
+                delete p.htmlTag.createdAt;
+                delete p.htmlTag.updatedAt;
             });
-            expect(instanceToPlain(response)).toStrictEqual(await result);
+            r.tags.forEach(t => {
+                delete t.createdAt;
+                delete t.updatedAt;
+            });
+            r?.children.forEach(c => {
+                delete c.createdAt;
+                delete c.updatedAt;
+            });
         });
+        expect(instanceToPlain(response)).toStrictEqual(await result);
     });
-   
-    describe('getPostsByTag', () => {
-        it('should return an array of posts by tag', async () => {
-            const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByTagRestaurants));
-            const response = await postsResolver.getPostsByTag('restaurants');
-            response.forEach(r => {
-                delete r.createdAt;
-                delete r.updatedAt;
-                delete r.author.createdAt;
-                delete r.author.updatedAt;
-                delete r.parent?.createdAt;
-                delete r.parent?.updatedAt;
-                r.paragraphs.forEach(p => {
-                    delete p.htmlTag.createdAt;
-                    delete p.htmlTag.updatedAt;
-                });
-                r.tags.forEach(t => {
-                    delete t.createdAt;
-                    delete t.updatedAt;
-                });
-                r?.children.forEach(c => {
-                    delete c.createdAt;
-                    delete c.updatedAt;
-                });
+
+    it('should return an array of posts by tag', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByTagRestaurants));
+        const response = await postsResolver.getPostsByTag('restaurants');
+        response.forEach(r => {
+            delete r.createdAt;
+            delete r.updatedAt;
+            delete r.author.createdAt;
+            delete r.author.updatedAt;
+            delete r.parent?.createdAt;
+            delete r.parent?.updatedAt;
+            r.paragraphs.forEach(p => {
+                delete p.htmlTag.createdAt;
+                delete p.htmlTag.updatedAt;
             });
-            expect(instanceToPlain(response)).toStrictEqual(await result);
+            r.tags.forEach(t => {
+                delete t.createdAt;
+                delete t.updatedAt;
+            });
+            r?.children.forEach(c => {
+                delete c.createdAt;
+                delete c.updatedAt;
+            });
         });
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
+
+    it('should return an array of posts by any of tags array', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByTagsRestaurantAndNone));
+        const response = await postsResolver.getPostsByAnyTags(['none', 'restaurants']);
+        response.forEach(r => {
+            delete r.createdAt;
+            delete r.updatedAt;
+            delete r.author.createdAt;
+            delete r.author.updatedAt;
+            delete r.parent?.createdAt;
+            delete r.parent?.updatedAt;
+            r.paragraphs.forEach(p => {
+                delete p.htmlTag.createdAt;
+                delete p.htmlTag.updatedAt;
+            });
+            r.tags.forEach(t => {
+                delete t.createdAt;
+                delete t.updatedAt;
+            });
+            r?.children.forEach(c => {
+                delete c.createdAt;
+                delete c.updatedAt;
+            });
+        });
+        expect(instanceToPlain(response)).toStrictEqual(await result);
     });
 });

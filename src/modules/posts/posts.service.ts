@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Post } from './entities';
 
 @Injectable()
@@ -86,6 +86,18 @@ export class PostsService {
                 paragraphs: { position: "ASC" }
             },        
             where: { tags: { content: tag }, enabled: true }
+        });
+
+        return posts;
+    }
+    
+    async getPostsByAnyTags(tags: Array<string>): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsRepository.find({
+            relations: ['author', 'type', 'paragraphs', 'paragraphs.htmlTag', 'analysis', 'parent', 'children', 'tags'],
+            order: {
+                paragraphs: { position: "ASC" }
+            },        
+            where: { tags: { content: In(tags) }, enabled: true }
         });
 
         return posts;

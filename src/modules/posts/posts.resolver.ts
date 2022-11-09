@@ -70,6 +70,15 @@ export class PostsResolver {
 
         return posts;
     }
+    
+    @Query('getPostsByAnyTags')
+    async getPostsByAnyTags(@Args('tags') tags: Array<string>): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsService.getPostsByAnyTags(tags);
+
+        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+
+        return posts;
+    }
 
     
     // @Query('getPostsByAnyTags')
