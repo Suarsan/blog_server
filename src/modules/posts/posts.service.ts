@@ -49,7 +49,19 @@ export class PostsService {
             order: {
                 paragraphs: { position: "ASC" }
             },        
-            where: { parent: { id: parentId }, enabled: true },
+            where: { parent: { id: parentId }, enabled: true }
+        });
+
+        return posts;
+    }
+
+    async getPostsByAuthor(firstname: string, lastname: string): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsRepository.find({
+            relations: ['author', 'type', 'paragraphs', 'paragraphs.htmlTag', 'analysis', 'parent', 'children', 'tags'],
+            order: {
+                paragraphs: { position: "ASC" }
+            },        
+            where: { author: { firstname, lastname }, enabled: true }
         });
 
         return posts;

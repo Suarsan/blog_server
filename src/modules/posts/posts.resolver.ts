@@ -44,6 +44,15 @@ export class PostsResolver {
         return posts;
     }
     
+    @Query('getPostsByAuthor')
+    async getPostsByAuthor(@Args('firstname') firstname: string, @Args('lastname') lastname: string,): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsService.getPostsByAuthor(firstname, lastname);
+
+        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+
+        return posts;
+    }
+    
     // @Query('getPostsByAuthor')
     // async getPostsByAuthor(): Promise<Array<Post>> {
     //     // const htmltags: Array<HtmlTag> = await this.postsService.getHtmlTags();
