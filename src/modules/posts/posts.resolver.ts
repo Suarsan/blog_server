@@ -26,14 +26,14 @@ export class PostsResolver {
         return post;
     }
     
-    // @Query('getEnabledPostBySlug')
-    // async getEnabledPostBySlug(): Promise<Array<Post>> {
-    //     // const htmltags: Array<HtmlTag> = await this.postsService.getHtmlTags();
-
-    //     // if (!(htmltags.length > 0)) throw new ApolloError('Html tags not found');
-
-    //     // return htmltags;
-    // }
+    @Query('getEnabledPostBySlug')
+    async getEnabledPostBySlug(@Args('slug') slug: string): Promise<Post> {
+        const post: Post = await this.postsService.getEnabledPostBySlug(slug);
+    
+        if (!post) throw new ApolloError('Posts not found');
+    
+        return post;
+    }
     
     // @Query('getPostsByParent')
     // async getPostsByParent(): Promise<Array<Post>> {

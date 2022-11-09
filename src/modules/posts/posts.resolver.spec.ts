@@ -104,4 +104,31 @@ describe('getPostbySlug', () => {
         expect(instanceToPlain(response)).toStrictEqual(await result);
     });
   });
+
+  describe('getEnabledPostbySlug', () => {
+      it('should return a post by slug', async () => {
+          const result = new Promise<Post>((res, rej) => res(mockedPost));
+          const response = await postsResolver.getEnabledPostBySlug('medios-de-transporte-para-recorrer-la-vera');
+          delete response.createdAt;
+          delete response.updatedAt;
+          delete response.author.createdAt;
+          delete response.author.updatedAt;
+          delete response.parent?.createdAt;
+          delete response.parent?.updatedAt;
+          response.paragraphs.forEach(p => {
+              delete p.htmlTag.createdAt;
+              delete p.htmlTag.updatedAt;
+          });
+          response.tags.forEach(t => {
+              delete t.createdAt;
+              delete t.updatedAt;
+          });
+          response?.children.forEach(c => {
+              delete c.createdAt;
+              delete c.updatedAt;
+          });
+          expect(instanceToPlain(response)).toStrictEqual(await result);
+      });
+    });
+
 });

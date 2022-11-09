@@ -25,6 +25,18 @@ export class PostsService {
             order: {
                 paragraphs: { position: "ASC" }
             },        
+            where: { slug }
+        });
+
+        return post;
+    }
+
+    async getEnabledPostBySlug(slug: string): Promise<Post> {
+        const post: Post = await this.postsRepository.findOne({
+            relations: ['author', 'type', 'paragraphs', 'paragraphs.htmlTag', 'analysis', 'parent', 'children', 'tags'],
+            order: {
+                paragraphs: { position: "ASC" }
+            },        
             where: { slug, enabled: true }
         });
 
