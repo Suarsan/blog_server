@@ -55,6 +55,7 @@ describe('TagsResolver', () => {
 
   it('should be defined', () => {
     expect(tagsResolver).toBeDefined();
+    expect(tagsService).toBeDefined();
   });
 
   it('should return an array of tags', async () => {

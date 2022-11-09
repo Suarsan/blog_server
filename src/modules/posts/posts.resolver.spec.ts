@@ -53,6 +53,7 @@ describe('PostsResolver', () => {
 
     it('should be defined', () => {
         expect(postsResolver).toBeDefined();
+        expect(postsService).toBeDefined();
     });
 
     it('should return an array of posts', async () => {

@@ -55,6 +55,7 @@ describe('HtmlTagsResolver', () => {
 
   it('should be defined', () => {
     expect(htmlTagsResolver).toBeDefined();
+    expect(htmlTagsService).toBeDefined();
   });
 
   it('should return an array of html tags', async () => {

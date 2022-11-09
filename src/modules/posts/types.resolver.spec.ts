@@ -55,6 +55,7 @@ describe('TypesResolver', () => {
 
   it('should be defined', () => {
     expect(typesResolver).toBeDefined();
+    expect(typesService).toBeDefined();
   });
 
   it('should return an array of types', async () => {
