@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ApolloError } from 'apollo-server-express';
 import { Type } from './entities';
 import { TypesService } from './types.service';
@@ -15,5 +15,14 @@ export class TypesResolver {
         if (!(types.length > 0)) throw new ApolloError('Types not found');
 
         return types;
+    }
+
+    @Mutation('addPostType')
+    async addPostType(@Args('content') content: string): Promise<Type> {
+        const type: Type = await this.typesService.addType(content);
+
+        if (!type) throw new ApolloError('Type can not be created');
+
+        return type;
     }
 }

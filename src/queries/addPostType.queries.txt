@@ -1,0 +1,6 @@
+mutation {
+  addPostType(content: "borrar") {
+    id
+    content
+  }
+}
