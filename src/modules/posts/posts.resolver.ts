@@ -1,12 +1,18 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ApolloError } from 'apollo-server-express';
-import { Post } from './entities';
+import { AuthorsService } from '../authors/authors.service';
+import { Author } from '../authors/entities';
+import { AnalysisService } from './analysis.service';
+import { AddPostInput } from './dtos/addPostInput.dto';
+import { Analysis, Post } from './entities';
 import { PostsService } from './posts.service';
 
 @Resolver()
 export class PostsResolver {
 
-    constructor(private readonly postsService: PostsService) {}
+    constructor(private readonly postsService: PostsService,
+                private readonly analysisService: AnalysisService,
+                private readonly authorsService: AuthorsService) {}
 
     @Query('getPosts')
     async getPosts(): Promise<Array<Post>> {
@@ -64,6 +70,7 @@ export class PostsResolver {
     
     @Query('getPostsByTag')
     async getPostsByTag(@Args('tag') tag: string): Promise<Array<Post>> {
+
         const posts: Array<Post> = await this.postsService.getPostsByTag(tag);
 
         if (!(posts.length > 0)) throw new ApolloError('Posts not found');
@@ -98,20 +105,29 @@ export class PostsResolver {
         return posts;
     }
 
-    // @Mutation('addPost')
-    // async addPost(@Args('post') post: string): Promise<Post> {
-    //     // const htmlTag = await this.postsService.getHtmlTagByContent(content);
+    @Mutation('addPost')
+    async addPost(@Args('addPostInput') addPostInput: AddPostInput): Promise<Post> {
 
-    //     // if (htmlTag) throw new ApolloError('Html tag already exists')
+        console.dir(addPostInput);
 
-    //     // const savedHtmlTag = await this.postsService.create(content);
+        const author: Author = await this.authorsService.getAuthorByContext(addPostInput.context);
 
-    //     // if (!savedHtmlTag) {
-    //     //     throw new NotFoundException('Html tag not found');
-    //     // }
+        if (!author) throw new ApolloError('Authentication error');
 
-    //     // return savedHtmlTag;
-    // }
+        const alreadyPosted: Post = await this.postsService.getPostBySlug(addPostInput.slug);
+        
+        if (alreadyPosted) throw new ApolloError('Slug already exists');
+        
+        const createdPost: Post = await this.postsService.create(addPostInput, author);
+
+        if (createdPost) throw new ApolloError('Post can not be created');
+
+        const createdAnalysis: Analysis = await this.analysisService.create(addPostInput.analysis, createdPost.id);
+
+        createdPost.analysis = createdAnalysis;
+
+        return createdPost;
+    }
     
     // @Mutation('updatePost')
     // async updatePost(@Args('post') post: string): Promise<Post> {

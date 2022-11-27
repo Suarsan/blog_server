@@ -7,6 +7,12 @@ export class Paragraph {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @CreateDateColumn()
+    createdAt?: Date;
+    
+    @UpdateDateColumn()
+    updatedAt?: Date;
+
     @Column({ nullable: false })
     content: string;
     
@@ -16,14 +22,8 @@ export class Paragraph {
     @Column({ nullable: false })
     position: number;
 
-    @CreateDateColumn()
-    createdAt?: Date;
-    
-    @UpdateDateColumn()
-    updatedAt?: Date;
-
     @ManyToOne(() => Post, post => post.paragraphs)
-    @JoinColumn({ name: 'post_id' })
+    @JoinColumn({ name: 'post_id',  })
     post?: Post;
 
     @ManyToOne(() => HtmlTag, htmlTag => htmlTag.paragraphs)

@@ -7,16 +7,15 @@ export class Type {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false })
-    content: string;
-  
-    @OneToMany(() => Post, post => post.type)
-    posts?: Post[];
-
     @CreateDateColumn()
     createdAt?: Date;
     
     @UpdateDateColumn()
     updatedAt?: Date;
 
+    @Column({ nullable: false })
+    content: string;
+
+    @OneToMany(() => Post, post => post.type)
+    posts?: Post[];
 }

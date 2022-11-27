@@ -15,7 +15,7 @@ export class TypesService {
         return types;
     }
 
-    async addType(content): Promise<Type> {
+    async create(content): Promise<Type> {
         const typeAlreadyExists: Type = await this.typesRepository.findOne({ where: { content } });
 
         if (typeAlreadyExists) throw new ApolloError('Type already exists')

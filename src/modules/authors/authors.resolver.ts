@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ApolloError } from 'apollo-server-express';
-import { ContextsService } from '../contexts/contexts.service';
+import { ContextsService } from './contexts.service';
 import { AuthorsService } from './authors.service';
 import { SignInInput } from './dtos/signInInput.dto';
 import { SignUpInput } from './dtos/signUpInput.dto';
@@ -49,7 +49,7 @@ export class AuthorsResolver {
 
         if (author) throw new ApolloError('Author already exists')
         
-        const savedAuthor = await this.authorsService.signUp(signUpInput.email, signUpInput.password, signUpInput.firstname, signUpInput.lastname);
+        const savedAuthor = await this.authorsService.create(signUpInput.email, signUpInput.password, signUpInput.firstname, signUpInput.lastname);
         
         if (!savedAuthor) {
             throw new NotFoundException('Resource not found');

@@ -19,7 +19,7 @@ export class HtmlTagsResolver {
 
     @Mutation('addHtmlTag')
     async addHtmlTag(@Args('content') content: string): Promise<HtmlTag> {
-        const htmlTag: HtmlTag = await this.htmlTagsService.addHtmlTag(content);
+        const htmlTag: HtmlTag = await this.htmlTagsService.create(content);
 
         if (!htmlTag) throw new ApolloError('Html tag can not be created');
 

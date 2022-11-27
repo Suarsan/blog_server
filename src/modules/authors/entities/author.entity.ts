@@ -1,6 +1,6 @@
-import { Context } from "src/modules/contexts/entities";
 import { Post } from "src/modules/posts/entities";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Context } from "./context.entity";
 
 @Entity('author')
 export class Author {
@@ -21,10 +21,10 @@ export class Author {
     lastname: string
 
     @CreateDateColumn()
-    createdAt?: Date | string;
+    createdAt?: Date;
     
     @UpdateDateColumn()
-    updatedAt?: Date | string;
+    updatedAt?: Date;
     
     @OneToMany(() => Context, context => context.author)
     context?: Context;

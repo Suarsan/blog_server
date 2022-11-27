@@ -19,7 +19,7 @@ export class TypesResolver {
 
     @Mutation('addPostType')
     async addPostType(@Args('content') content: string): Promise<Type> {
-        const type: Type = await this.typesService.addType(content);
+        const type: Type = await this.typesService.create(content);
 
         if (!type) throw new ApolloError('Type can not be created');
 

@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { instanceToPlain } from 'class-transformer';
-import { mockedHtmlTags } from 'src/mock/html-tags.mock';
+import { mockedTypes } from 'src/mock/types.mock';
 import { DataSourceOptions } from 'typeorm';
 import { AuthorsModule } from '../authors/authors.module';
 import { Author } from '../authors/entities';
 import { Analysis, HtmlTag, Paragraph, Post, Tag, Type } from './entities';
-import { HtmlTagsResolver } from './htmlTags.resolver';
-import { HtmlTagsService } from './htmlTags.service';
 import { PostsModule } from './posts.module';
+import { TypesResolver } from './types.resolver';
+import { TypesService } from './types.service';
 
-describe('HtmlTagsResolver', () => {
-  let htmlTagsResolver: HtmlTagsResolver;
-  let htmlTagsService: HtmlTagsService;
+describe('AnalysisResolver', () => {
+  let typesResolver: TypesResolver;
+  let typesService: TypesService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -46,33 +46,33 @@ describe('HtmlTagsResolver', () => {
             Author
         ])
       ],
-      providers: [HtmlTagsResolver, HtmlTagsService],
+      providers: [TypesResolver, TypesService],
     }).compile();
 
-    htmlTagsResolver = module.get<HtmlTagsResolver>(HtmlTagsResolver);
-    htmlTagsService = module.get<HtmlTagsService>(HtmlTagsService);
+    typesResolver = module.get<TypesResolver>(TypesResolver);
+    typesService = module.get<TypesService>(TypesService);
   });
 
   // it('should be defined', () => {
-  //   expect(htmlTagsResolver).toBeDefined();
-  //   expect(htmlTagsService).toBeDefined();
+  //   expect(typesResolver).toBeDefined();
+  //   expect(typesService).toBeDefined();
   // });
 
-  // it('should return an array of html tags', async () => {
-  //   const result = new Promise<Array<HtmlTag>>((res, rej) => res(mockedHtmlTags));
-  //   let response = await htmlTagsResolver.getHtmlTags();
-  //   response = cleanTimestamps(response) as Array<HtmlTag>;
+  // it('should return an array of types', async () => {
+  //   const result = new Promise<Array<Type>>((res, rej) => res(mockedTypes));
+  //   let response = await typesResolver.getPostTypes();
+  //   response = cleanTimestamps(response) as Array<Type>;
   //   expect(instanceToPlain(response)).toStrictEqual(await result);
   // });
 
 });
 
-function cleanTimestamps(input: HtmlTag | Array<HtmlTag>): HtmlTag | Array<HtmlTag> {
-  let htmlTags = Array.isArray(input) ? [...input] : [input];
-  htmlTags.forEach(r => {
+function cleanTimestamps(input: Type | Array<Type>): Type | Array<Type> {
+  let types = Array.isArray(input) ? [...input] : [input];
+  types.forEach(r => {
       delete r.createdAt;
       delete r.updatedAt;
       
   });
-  return htmlTags.length > 1 ? htmlTags : htmlTags[0];
+  return types.length > 1 ? types : types[0];
 }

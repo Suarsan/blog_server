@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
+import { Author } from '../authors/entities';
+import { AddPostInput } from './dtos/addPostInput.dto';
 import { Post } from './entities';
 
 @Injectable()
@@ -125,5 +127,27 @@ export class PostsService {
         });
 
         return posts;
+    }
+
+    async create(addPostInput: AddPostInput, author: Author) {
+
+        const post = await this.postsRepository.create({
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            enabled: true,
+            slug: addPostInput.slug,
+            title: addPostInput.title,
+            metaTitle: addPostInput.metaTitle,
+            metaDescription: addPostInput.metaDescription,
+            image: addPostInput.image,
+            readTime: addPostInput.readTime,
+            type_id: addPostInput.type.id,
+            author_id: author.id,
+            parent_id: addPostInput.parentId,
+        });
+
+        const savedPost = await this.postsRepository.save(post);
+
+        return savedPost;
     }
 }

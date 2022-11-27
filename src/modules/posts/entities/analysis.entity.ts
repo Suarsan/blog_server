@@ -7,23 +7,26 @@ export class Analysis {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: true})
-    score: string;
-
-    @Column({ nullable: true})
-    pros: string;
-
-    @Column({ nullable: true})
-    cons: string;
-
     @CreateDateColumn()
     createdAt?: Date;
     
     @UpdateDateColumn()
     updatedAt?: Date;
 
+    @Column({ nullable: true })
+    score: string;
+
+    @Column({ nullable: true })
+    pros: string;
+
+    @Column({ nullable: true })
+    cons: string;
+
     @OneToOne(() => Post, post => post.analysis)
-    @JoinColumn({ name: 'post_id'})
+    @JoinColumn({ name: 'post_id' })
     post?: Post;
+
+    @Column({ name: 'post_id' })
+    postId?: number;
 
 }

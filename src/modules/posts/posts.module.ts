@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthorsModule } from '../authors/authors.module';
+import { AnalysisResolver } from './analysis.resolver';
+import { AnalysisService } from './analysis.service';
 import { Analysis, HtmlTag, Paragraph, Post, Tag, Type } from './entities';
 import { HtmlTagsResolver } from './htmlTags.resolver';
 import { HtmlTagsService } from './htmlTags.service';
@@ -19,7 +22,8 @@ import { TypesService } from './types.service';
       Type,
       HtmlTag,
       Tag
-    ])
+    ]),
+    AuthorsModule
   ],
   providers: [
     PostsService,
@@ -29,7 +33,9 @@ import { TypesService } from './types.service';
     TypesResolver,
     TypesService,
     TagsResolver,
-    TagsService
+    TagsService,
+    AnalysisResolver,
+    AnalysisService
   ]
 })
 export class PostsModule {}

@@ -15,7 +15,7 @@ export class HtmlTagsService {
         return htmlTags;
     }
     
-    async addHtmlTag(content): Promise<HtmlTag> {
+    async create(content): Promise<HtmlTag> {
         const htmlTagAlreadyExists: HtmlTag = await this.htmlTagsRepository.findOne({ where: { content } });
 
         if (htmlTagAlreadyExists) throw new ApolloError('Html tag already exists')

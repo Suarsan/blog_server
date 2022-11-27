@@ -7,14 +7,14 @@ export class HtmlTag {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false})
-    content: string;
-
     @CreateDateColumn()
     createdAt?: Date;
     
     @UpdateDateColumn()
     updatedAt?: Date;
+
+    @Column({ nullable: false})
+    content: string;
 
     @OneToMany(() => Paragraph, paragraph => paragraph.htmlTag)
     paragraphs?: Paragraph[];

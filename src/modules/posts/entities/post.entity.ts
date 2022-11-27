@@ -1,5 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Author } from "src/modules/authors/entities";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Analysis, Paragraph, Tag, Type } from "./index";
 
 @Entity('post')
@@ -7,6 +7,12 @@ export class Post {
 
     @PrimaryGeneratedColumn()
     id: number;
+
+    @CreateDateColumn()
+    createdAt?: Date;
+    
+    @UpdateDateColumn()
+    updatedAt?: Date;
 
     @Column({ nullable: true })
     enabled: boolean;
@@ -29,19 +35,19 @@ export class Post {
     @Column({ nullable: true, name: 'meta_description' })
     metaDescription?: string;
 
-    @CreateDateColumn()
-    createdAt?: Date | string;
-    
-    @UpdateDateColumn()
-    updatedAt?: Date | string;
-
-    @ManyToOne(() => Author, author => author.posts)
+    @ManyToOne(() => Author, author => author.posts, { cascade: ['insert', 'update']})
     @JoinColumn({ name: 'author_id' })
     author?: Author;
+
+    @Column()
+    author_id?: number;
     
     @ManyToOne(() => Type, type => type.posts)
     @JoinColumn({ name: 'type_id' })
     type?: Type;
+
+    @Column()
+    type_id?: number;
 
     @OneToMany(() => Paragraph, paragraph => paragraph.post)
     paragraphs?: Paragraph[];
@@ -52,6 +58,9 @@ export class Post {
     @ManyToOne(() => Post, post => post.children)
     @JoinColumn({ name: 'parent_id' })
     parent?: Post;
+    
+    @Column()
+    parent_id?: number;
 
     @OneToMany(() => Post, post => post.parent)
     children?: Post[];

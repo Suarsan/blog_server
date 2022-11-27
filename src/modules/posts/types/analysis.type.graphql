@@ -4,3 +4,7 @@ type Analysis {
     pros:String
     cons:String
 }
+
+type Query {
+    getAnalysis:[Analysis]
+}
