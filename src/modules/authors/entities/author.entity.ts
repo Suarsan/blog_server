@@ -1,5 +1,5 @@
 import { Post } from "src/modules/posts/entities";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Context } from "./context.entity";
 
 @Entity('author')
@@ -25,11 +25,9 @@ export class Author {
     
     @UpdateDateColumn()
     updatedAt?: Date;
-    
-    @OneToMany(() => Context, context => context.author)
+
     context?: Context;
 
-    @OneToMany(() => Post, post => post.author)
     posts?: Array<Post>;
     
 }

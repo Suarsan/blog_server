@@ -1,5 +1,4 @@
-import { Author } from "src/modules/authors/entities";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('context')
 export class Context {
@@ -9,14 +8,13 @@ export class Context {
 
     @Column({ nullable: false})
     context: string;
+    
+    @Column({ nullable: false})
+    author_id: number;
 
     @CreateDateColumn()
     createdAt?: Date;
     
     @UpdateDateColumn()
     updatedAt?: Date;
-
-    @ManyToOne(() => Author, author => author.context)
-    @JoinColumn({ name: "author_id" })
-    author?: Author;
 }

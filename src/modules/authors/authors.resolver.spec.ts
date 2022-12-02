@@ -50,31 +50,29 @@ describe('AuthorsResolver', () => {
         authorsResolver = module.get<AuthorsResolver>(AuthorsResolver);
     });
 
-    describe('getAuthors', () => {
-        // it('should be defined', () => {
-        //     expect(authorsResolver).toBeDefined();
-        //     expect(authorsService).toBeDefined();
-        // });
+    it('should be defined', () => {
+        expect(authorsResolver).toBeDefined();
+        expect(authorsService).toBeDefined();
+    });
 
-        // it('should return an array of authors', async () => {
-        //     const result = new Promise<Array<Author>>((res, rej) => res(mockedAuthors));
-        //     const response = await authorsResolver.getAuthors();
-        //     response.forEach(r => {
-        //         delete r.createdAt;
-        //         delete r.updatedAt;
-        //     });
+    it('should return an array of authors', async () => {
+        const result = new Promise<Array<Author>>((res, rej) => res(mockedAuthors));
+        const response = await authorsResolver.getAuthors();
+        response.forEach(r => {
+            delete r.createdAt;
+            delete r.updatedAt;
+        });
 
-        //     expect(instanceToPlain(response)).toStrictEqual(await result);
-        // });
-        
-        // it('should signin', async () => {
-        //     const result = new Promise<Author>((res, rej) => res(mockedSignIn));
-        //     const response = await authorsResolver.signIn({email: 'asd@asd.com', password: 'test'});
-        //     delete response.createdAt;
-        //     delete response.updatedAt;
-        //     delete response.context;
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
+    
+    it('should signin', async () => {
+        const result = new Promise<Author>((res, rej) => res(mockedSignIn));
+        const response = await authorsResolver.signIn({email: 'asd@asd.com', password: 'test'});
+        delete response.createdAt;
+        delete response.updatedAt;
+        delete response.context;
 
-        //     expect(instanceToPlain(response)).toStrictEqual(await result);
-        // });
+        expect(instanceToPlain(response)).toStrictEqual(await result);
     });
 });

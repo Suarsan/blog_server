@@ -11,38 +11,38 @@ export class AuthorsService {
                 @InjectRepository(Context) private readonly contextsRepository: Repository<Context>) {}
 
     async create(email, password, firstname, lastname): Promise<Author> {
-        const author: Author = await this.authorRepository.create({
-            email,
-            password: await security.hash(password),
-            firstname,
-            lastname,
-            createdAt: new Date(),
-            updatedAt: new Date()
-        });
-
-        const savedAuthor = this.authorRepository.save(author);
-
-        return savedAuthor;
+        const hashedPassword = await security.hash(password);
+        const author: Author = await this.authorRepository.query(
+            `INSERT INTO author(email, password, firstname, lastname, "createdAt", "updatedAt") 
+            VALUES ('${email}', '${hashedPassword}', '${firstname}', '${lastname}', 'NOW', 'NOW') 
+            RETURNING *`
+        );
+        return author;
     }
     
     async getAuthorByEmail(email: string): Promise<Author> {
-        const author: Author = await this.authorRepository.findOne({ where: { email } });
-        return author;
+        const author: Author = await this.authorRepository.query(
+            `SELECT * from author WHERE email = '${email}' LIMIT 1;`
+        );
+        return author[0];
     }
 
     async getAuthors(): Promise<Array<Author>> {
-        const authors: Array<Author> = await this.authorRepository.find();
+        const authors: Array<Author> = await this.authorRepository.query(
+            `SELECT * from author;`
+        );
 
         return authors;
     }
 
-    async getAuthorByContext(context: string): Promise<Author> {
-        const ctx: Context = await this.contextsRepository.findOne({
-            relations: ['author'],
-            where: { context }
-        });
+    async getAuthorByContext(context: string): Promise<any> {
+        const authorId: Context = await this.contextsRepository.query(
+            `SELECT DISTINCT ON (author.id) author.id 
+            FROM author 
+            INNER JOIN context ON author.id = (SELECT author_id FROM context WHERE context = '$2b$12$69YsrPrLMakfAJTJxsO7rOSBp3OwH.LEM6EI33vjMwM2LWz2iqG/i');`
+        );
 
-        return ctx.author;
+        return authorId;
     }
 
 }

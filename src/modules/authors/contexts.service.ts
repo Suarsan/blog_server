@@ -10,16 +10,14 @@ export class ContextsService {
     constructor(@InjectRepository(Context) private readonly contextRepository: Repository<Context>) {}
 
     async create(author: Author): Promise<Context> {
-        const context: Context = await this.contextRepository.create({
-            context: await security.hash(`${Math.random()}${new Date()}${author.email}${author.password}`),
-            author: { id: author.id },
-            createdAt: new Date(),
-            updatedAt: new Date()
-        });
+        const ctx = await security.hash(`${Math.random()}${new Date()}${author.email}${author.password}`);
+        const context: Context = await this.contextRepository.query(
+            `INSERT INTO context(context, author_id, "createdAt", "updatedAt") 
+            VALUES ('${ctx}', ${author.id}, 'NOW', 'NOW') 
+            RETURNING *;`
+        );
 
-        const savedContext = this.contextRepository.save(context);
-
-        return savedContext;
+        return context;
     }
 
 }
