@@ -53,17 +53,17 @@ describe('HtmlTagsResolver', () => {
     htmlTagsService = module.get<HtmlTagsService>(HtmlTagsService);
   });
 
-  // it('should be defined', () => {
-  //   expect(htmlTagsResolver).toBeDefined();
-  //   expect(htmlTagsService).toBeDefined();
-  // });
+  it('should be defined', () => {
+    expect(htmlTagsResolver).toBeDefined();
+    expect(htmlTagsService).toBeDefined();
+  });
 
-  // it('should return an array of html tags', async () => {
-  //   const result = new Promise<Array<HtmlTag>>((res, rej) => res(mockedHtmlTags));
-  //   let response = await htmlTagsResolver.getHtmlTags();
-  //   response = cleanTimestamps(response) as Array<HtmlTag>;
-  //   expect(instanceToPlain(response)).toStrictEqual(await result);
-  // });
+  it('should return an array of html tags', async () => {
+    const result = new Promise<Array<HtmlTag>>((res, rej) => res(mockedHtmlTags));
+    let response = await htmlTagsResolver.getHtmlTags();
+    response = cleanTimestamps(response) as Array<HtmlTag>;
+    expect(instanceToPlain(response)).toStrictEqual(await result);
+  });
 
 });
 

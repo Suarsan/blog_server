@@ -12,7 +12,8 @@ export class AnalysisService {
     async getAnalysis(): Promise<Array<Analysis>> {
 
         const analysis: Array<Analysis> = await this.analysisRepository.query(
-            `SELECT id, score, pros, cons from analysis;`
+            `SELECT id, score, pros, cons from analysis
+            ORDER BY id ASC;`
         );
 
         return analysis;

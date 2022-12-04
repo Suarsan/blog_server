@@ -11,7 +11,8 @@ export class TypesService {
 
     async getTypes(): Promise<Array<Type>> {
         const types: Array<Type> = await this.typesRepository.query(
-            `SELECT * from type;`
+            `SELECT * from type
+            ORDER BY id ASC;`
         );
 
         return types;

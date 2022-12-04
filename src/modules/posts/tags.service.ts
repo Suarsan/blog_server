@@ -10,7 +10,8 @@ export class TagsService {
 
     async getTags(): Promise<Array<Tag>> {
         const tags: Array<Tag> = await this.tagsRepository.query(
-            `SELECT * from tags;`
+            `SELECT * from tags
+            ORDER BY id ASC;`
         );
 
         return tags;

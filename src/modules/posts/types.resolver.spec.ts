@@ -53,17 +53,17 @@ describe('TypesResolver', () => {
     typesService = module.get<TypesService>(TypesService);
   });
 
-  // it('should be defined', () => {
-  //   expect(typesResolver).toBeDefined();
-  //   expect(typesService).toBeDefined();
-  // });
+  it('should be defined', () => {
+    expect(typesResolver).toBeDefined();
+    expect(typesService).toBeDefined();
+  });
 
-  // it('should return an array of types', async () => {
-  //   const result = new Promise<Array<Type>>((res, rej) => res(mockedTypes));
-  //   let response = await typesResolver.getPostTypes();
-  //   response = cleanTimestamps(response) as Array<Type>;
-  //   expect(instanceToPlain(response)).toStrictEqual(await result);
-  // });
+  it('should return an array of types', async () => {
+    const result = new Promise<Array<Type>>((res, rej) => res(mockedTypes));
+    let response = await typesResolver.getPostTypes();
+    response = cleanTimestamps(response) as Array<Type>;
+    expect(instanceToPlain(response)).toStrictEqual(await result);
+  });
 
 });
 
