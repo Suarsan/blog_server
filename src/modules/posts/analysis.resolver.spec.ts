@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { instanceToPlain } from 'class-transformer';
-import { mockedTypes } from 'src/mock/types.mock';
+import { mockedAnalysis } from 'src/mock/analysis.mock';
 import { DataSourceOptions } from 'typeorm';
 import { AuthorsModule } from '../authors/authors.module';
 import { Author } from '../authors/entities';
+import { AnalysisResolver } from './analysis.resolver';
+import { AnalysisService } from './analysis.service';
 import { Analysis, HtmlTag, Paragraph, Post, Tag, Type } from './entities';
 import { PostsModule } from './posts.module';
-import { TypesResolver } from './types.resolver';
-import { TypesService } from './types.service';
 
 describe('AnalysisResolver', () => {
-  let typesResolver: TypesResolver;
-  let typesService: TypesService;
+  let analysisResolver: AnalysisResolver;
+  let analysisService: AnalysisService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -46,33 +46,33 @@ describe('AnalysisResolver', () => {
             Author
         ])
       ],
-      providers: [TypesResolver, TypesService],
+      providers: [AnalysisResolver, AnalysisService],
     }).compile();
 
-    typesResolver = module.get<TypesResolver>(TypesResolver);
-    typesService = module.get<TypesService>(TypesService);
+    analysisResolver = module.get<AnalysisResolver>(AnalysisResolver);
+    analysisService = module.get<AnalysisService>(AnalysisService);
   });
 
-  // it('should be defined', () => {
-  //   expect(typesResolver).toBeDefined();
-  //   expect(typesService).toBeDefined();
-  // });
+  it('should be defined', () => {
+    expect(analysisResolver).toBeDefined();
+    expect(analysisService).toBeDefined();
+  });
 
-  // it('should return an array of types', async () => {
-  //   const result = new Promise<Array<Type>>((res, rej) => res(mockedTypes));
-  //   let response = await typesResolver.getPostTypes();
-  //   response = cleanTimestamps(response) as Array<Type>;
-  //   expect(instanceToPlain(response)).toStrictEqual(await result);
-  // });
+  it('should return an array of analysis', async () => {
+    const result = new Promise<Array<Analysis>>((res, rej) => res(mockedAnalysis));
+    let response = await analysisResolver.getAnalysis();
+    response = cleanTimestamps(response) as Array<Analysis>;
+    expect(instanceToPlain(response)).toStrictEqual(await result);
+  });
 
 });
 
-function cleanTimestamps(input: Type | Array<Type>): Type | Array<Type> {
-  let types = Array.isArray(input) ? [...input] : [input];
-  types.forEach(r => {
+function cleanTimestamps(input: Analysis | Array<Analysis>): Analysis | Array<Analysis> {
+  let analysis = Array.isArray(input) ? [...input] : [input];
+  analysis.forEach(r => {
       delete r.createdAt;
       delete r.updatedAt;
       
   });
-  return types.length > 1 ? types : types[0];
+  return analysis.length > 1 ? analysis : analysis[0];
 }

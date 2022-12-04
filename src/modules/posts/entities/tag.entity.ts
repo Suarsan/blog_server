@@ -1,5 +1,4 @@
-import { Post } from "src/modules/posts/entities";
-import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('tags')
 export class Tag {
@@ -15,8 +14,5 @@ export class Tag {
 
     @Column({ nullable: false, unique: true })
     content: string;
-
-    @ManyToMany(() => Post, post => post.tags)
-    posts?: Post[];
 
 }

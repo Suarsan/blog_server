@@ -22,11 +22,7 @@ export class Analysis {
     @Column({ nullable: true })
     cons: string;
 
-    @OneToOne(() => Post, post => post.analysis)
-    @JoinColumn({ name: 'post_id' })
-    post?: Post;
-
-    @Column({ name: 'post_id' })
-    postId?: number;
+    @Column({ nullable: false })
+    post_id?: number;
 
 }

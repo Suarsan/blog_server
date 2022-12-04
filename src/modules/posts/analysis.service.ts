@@ -11,23 +11,20 @@ export class AnalysisService {
 
     async getAnalysis(): Promise<Array<Analysis>> {
 
-        const analysis: Array<Analysis> = await this.analysisRepository.find();
+        const analysis: Array<Analysis> = await this.analysisRepository.query(
+            `SELECT id, score, pros, cons from analysis;`
+        );
 
         return analysis;
     }
 
     async create(analysisInput: AnalysisInput, postId): Promise<Analysis> {
 
-        const createdAnalysis = await this.analysisRepository.create({
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            score: analysisInput.score,
-            pros: analysisInput.pros,
-            cons: analysisInput.cons,
-            postId
-        });
-
-        const savedAnalysis = await this.analysisRepository.save(createdAnalysis);
+        const savedAnalysis = await this.analysisRepository.query(
+            `INSERT INTO analysis (score, pros, cons, "createdAt", "updatedAt", post_id)
+            VALUES (${analysisInput.score}, ${analysisInput.pros}, ${analysisInput.cons}, NOW(), NOW(), ${postId})
+            RETURNING *;`
+        );
 
         delete savedAnalysis.postId;
 

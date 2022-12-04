@@ -1,5 +1,4 @@
-import { Paragraph } from "src/modules/posts/entities";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('html-tag')
 export class HtmlTag {
@@ -15,8 +14,5 @@ export class HtmlTag {
 
     @Column({ nullable: false})
     content: string;
-
-    @OneToMany(() => Paragraph, paragraph => paragraph.htmlTag)
-    paragraphs?: Paragraph[];
 
 }

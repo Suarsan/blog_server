@@ -57,45 +57,45 @@ describe('PostsResolver', () => {
         postsResolver = module.get<PostsResolver>(PostsResolver);
     });
 
-    // it('should be defined', () => {
-    //     expect(postsResolver).toBeDefined();
-    //     expect(postsService).toBeDefined();
-    // });
+    it('should be defined', () => {
+        expect(postsResolver).toBeDefined();
+        expect(postsService).toBeDefined();
+    });
 
-    // it('should return an array of posts', async () => {
-    //     const result = new Promise<Array<Post>>((res, rej) => res(mockedPosts));
-    //     let response = await postsResolver.getPosts();
-    //     response = cleanTimestamps(response) as Array<Post>;
-    //     expect(instanceToPlain(response)).toStrictEqual(await result);
-    // });
+    it('should return an array of posts', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPosts));
+        let response = await postsResolver.getPosts();
+        response = cleanTimestamps(response) as Array<Post>;
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
 
-    // it('should return a post by slug', async () => {
-    //     const result = new Promise<Post>((res, rej) => res(mockedPost));
-    //     let response = await postsResolver.getPostBySlug('medios-de-transporte-para-recorrer-la-vera');
-    //     response = cleanTimestamps(response) as Post;
-    //     expect(instanceToPlain(response)).toStrictEqual(await result);
-    // });
+    it('should return a post by slug', async () => {
+        const result = new Promise<Post>((res, rej) => res(mockedPost));
+        let response = await postsResolver.getPostBySlug('medios-de-transporte-para-recorrer-la-vera');
+        response = cleanTimestamps(response) as Post;
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
 
-    // it('should return a enabled post by slug', async () => {
-    //     const result = new Promise<Post>((res, rej) => res(mockedPost));
-    //     let response = await postsResolver.getEnabledPostBySlug('medios-de-transporte-para-recorrer-la-vera');
-    //     response = cleanTimestamps(response) as Post;
-    //     expect(instanceToPlain(response)).toStrictEqual(await result);
-    // });
+    it('should return a enabled post by slug', async () => {
+        const result = new Promise<Post>((res, rej) => res(mockedPost));
+        let response = await postsResolver.getEnabledPostBySlug('medios-de-transporte-para-recorrer-la-vera');
+        response = cleanTimestamps(response) as Post;
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
 
-    // it('should return an array of posts by parent', async () => {
-    //     const result = new Promise<Array<Post>>((res, rej) => res(mockedPostWithParent112));
-    //     let response = await postsResolver.getPostsByParent(112);
-    //     response = cleanTimestamps(response) as Array<Post>;
-    //     expect(instanceToPlain(response)).toStrictEqual(await result);
-    // });
+    it('should return an array of posts by parent', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostWithParent112));
+        let response = await postsResolver.getPostsByParent(112);
+        response = cleanTimestamps(response) as Array<Post>;
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
 
-    // it('should return an array of posts by author', async () => {
-    //     const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByAuthorLeonXIII));
-    //     let response = await postsResolver.getPostsByAuthor('León', 'XIII');
-    //     response = cleanTimestamps(response) as Array<Post>;
-    //     expect(instanceToPlain(response)).toStrictEqual(await result);
-    // });
+    it('should return an array of posts by author', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByAuthorLeonXIII));
+        let response = await postsResolver.getPostsByAuthor('León', 'XIII');
+        response = cleanTimestamps(response) as Array<Post>;
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
 
     // it('should return an array of posts by type', async () => {
     //     const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByType4));
@@ -148,13 +148,11 @@ function cleanTimestamps(input: Post | Array<Post>): Post | Array<Post> {
         delete post.type?.updatedAt;
         delete post.analysis?.createdAt;
         delete post.analysis?.updatedAt;
-        post.paragraphs.forEach(paragraph => {
+        post.paragraphs?.forEach(paragraph => {
             delete paragraph.createdAt;
             delete paragraph.updatedAt;
-            // delete paragraph.htmlTag.createdAt;
-            // delete paragraph.htmlTag.updatedAt;
         });
-        post.tags.forEach(tag => {
+        post.tags?.forEach(tag => {
             delete tag.createdAt;
             delete tag.updatedAt;
         });
@@ -165,7 +163,7 @@ function cleanTimestamps(input: Post | Array<Post>): Post | Array<Post> {
         delete post.parent?.author_id;
         delete post.parent?.type?.createdAt;
         delete post.parent?.type?.updatedAt;
-        post?.children.forEach(children => {
+        post?.children?.forEach(children => {
             delete children.createdAt;
             delete children.updatedAt;
             delete children.type_id;

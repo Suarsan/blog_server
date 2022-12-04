@@ -1,5 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Post } from "./post.entity";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('type')
 export class Type {
@@ -16,6 +15,4 @@ export class Type {
     @Column({ nullable: false })
     content: string;
 
-    @OneToMany(() => Post, post => post.type)
-    posts?: Post[];
 }

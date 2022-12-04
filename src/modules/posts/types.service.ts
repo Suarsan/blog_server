@@ -10,21 +10,25 @@ export class TypesService {
     constructor(@InjectRepository(Type) private readonly typesRepository: Repository<Type>) {}
 
     async getTypes(): Promise<Array<Type>> {
-        const types: Array<Type> = await this.typesRepository.find();
+        const types: Array<Type> = await this.typesRepository.query(
+            `SELECT * from type;`
+        );
 
         return types;
     }
 
     async create(content): Promise<Type> {
-        const typeAlreadyExists: Type = await this.typesRepository.findOne({ where: { content } });
+        const typeAlreadyExists: Type = await this.typesRepository.query(
+            `SELECT * from type WHERE content = ${content} LIMIT 1;`
+        );
 
         if (typeAlreadyExists) throw new ApolloError('Type already exists')
 
-        const createdType = await this.typesRepository.create({
-            content,
-            createdAt: new Date(),
-            updatedAt: new Date()
-        });
+        const createdType = await this.typesRepository.query(
+            `INSERT INTO type (content, "createdAt", "updatedAt") 
+            VALUES (${content}, NOW(), NOW())
+            RETURNING *;`
+        );
 
         const savedType = await this.typesRepository.save(createdType);
 

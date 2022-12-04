@@ -6,13 +6,13 @@ import { Context } from "./context.entity";
 export class Author {
     
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @Column({ nullable: false})
     email: string;
 
     @Column({ nullable: false})
-    password: string;
+    password?: string;
 
     @Column({ nullable: false})
     firstname: string
