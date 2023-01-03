@@ -59,14 +59,14 @@ export class PostsResolver {
         return posts;
     }
    
-    // @Query('getPostsByType')
-    // async getPostsByType(@Args('typeId') typeId: number): Promise<Array<Post>> {
-    //     const posts: Array<Post> = await this.postsService.getPostsByType(typeId);
+    @Query('getPostsByType')
+    async getPostsByType(@Args('typeId') typeId: number): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsService.getPostsByType(typeId);
 
-    //     if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
 
-    //     return posts;
-    // }
+        return posts;
+    }
     
     // @Query('getPostsByTag')
     // async getPostsByTag(@Args('tag') tag: string): Promise<Array<Post>> {
@@ -96,38 +96,47 @@ export class PostsResolver {
     //     return posts;
     // }
 
-    // @Query('getPostsByScore')
-    // async getPostsByScore(): Promise<Array<Post>> {
-    //     const posts: Array<Post> = await this.postsService.getPostsByScore();
+    @Query('getPostsByScore')
+    async getPostsByScore(): Promise<Array<Post>> {
+        const posts: Array<Post> = await this.postsService.getPostsByScore();
 
-    //     if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
 
-    //     return posts;
-    // }
+        return posts;
+    }
 
-    // @Mutation('addPost')
-    // async addPost(@Args('addPostInput') addPostInput: AddPostInput): Promise<Post> {
+    @Mutation('addPost')
+    async addPost(@Args('addPostInput') addPostInput: AddPostInput): Promise<Post> {
 
-    //     console.dir(addPostInput);
+        const author: Author = await this.authorsService.getAuthorByContext(addPostInput.context);
 
-    //     const author: Author = await this.authorsService.getAuthorByContext(addPostInput.context);
+        if (!author) throw new ApolloError('Authentication error');
 
-    //     if (!author) throw new ApolloError('Authentication error');
-
-    //     const alreadyPosted: Post = await this.postsService.getPostBySlug(addPostInput.slug);
+        const alreadyPosted: Post = await this.postsService.getPostBySlug(addPostInput.slug);
         
-    //     if (alreadyPosted) throw new ApolloError('Slug already exists');
+        if (alreadyPosted) throw new ApolloError('Slug already exists');
         
-    //     const createdPost: Post = await this.postsService.create(addPostInput, author);
+        const createdPost: Post = await this.postsService.create(
+            true, 
+            addPostInput.slug, 
+            addPostInput.title, 
+            addPostInput.metaTitle, 
+            addPostInput.metaDescription, 
+            addPostInput.image, 
+            addPostInput.readTime, 
+            addPostInput.type.id, 
+            author.id, 
+            addPostInput.parentId
+        );
 
-    //     if (createdPost) throw new ApolloError('Post can not be created');
+        if (createdPost) throw new ApolloError('Post can not be created');
 
-    //     const createdAnalysis: Analysis = await this.analysisService.create(addPostInput.analysis, createdPost.id);
+        const createdAnalysis: Analysis = await this.analysisService.create(addPostInput.analysis, createdPost.id);
 
-    //     createdPost.analysis = createdAnalysis;
+        createdPost.analysis = createdAnalysis;
 
-    //     return createdPost;
-    // }
+        return createdPost;
+    }
     
     
     

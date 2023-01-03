@@ -97,12 +97,12 @@ describe('PostsResolver', () => {
         expect(instanceToPlain(response)).toStrictEqual(await result);
     });
 
-    // it('should return an array of posts by type', async () => {
-    //     const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByType4));
-    //     let response = await postsResolver.getPostsByType(4);
-    //     response = cleanTimestamps(response) as Array<Post>;
-    //     expect(instanceToPlain(response)).toStrictEqual(await result);
-    // });
+    it('should return an array of posts by type', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByType4));
+        let response = await postsResolver.getPostsByType(4);
+        response = cleanTimestamps(response) as Array<Post>;
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
 
     // it('should return an array of posts by tag', async () => {
     //     const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsByTagRestaurants));
@@ -125,12 +125,12 @@ describe('PostsResolver', () => {
     //     expect(instanceToPlain(response)).toStrictEqual(await result);
     // });
 
-    // it('should return an array of posts ordered by analysis score', async () => {
-    //     const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsOrderedByAnalysisScore));
-    //     let response = await postsResolver.getPostsByScore();
-    //     response = cleanTimestamps(response) as Array<Post>;
-    //     expect(instanceToPlain(response)).toStrictEqual(await result);
-    // });
+    it('should return an array of posts ordered by analysis score', async () => {
+        const result = new Promise<Array<Post>>((res, rej) => res(mockedPostsOrderedByAnalysisScore));
+        let response = await postsResolver.getPostsByScore();
+        response = cleanTimestamps(response) as Array<Post>;
+        expect(instanceToPlain(response)).toStrictEqual(await result);
+    });
 
 });
 

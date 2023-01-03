@@ -6,5 +6,9 @@ export const mockedTags = [
     {
         "id": 2,
         "content": "restaurants"
+    },
+    {
+        "id": 123,
+        "content": "test"
     }
 ];
