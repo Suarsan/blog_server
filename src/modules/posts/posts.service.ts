@@ -16,6 +16,8 @@ export class PostsService {
                 'slug', post.slug,
                 'title', post.title,
                 'image', post.image,
+                'metaTitle', post.meta_title,
+                'metaDescription', post.meta_description,
                 'readTime', post.read_time,
                 'createdAt', post."createdAt",
                 'updatedAt', post."updatedAt",
@@ -67,8 +69,6 @@ export class PostsService {
                         'slug', parent.slug,
                         'title', parent.title,
                         'image', parent.image,
-                        'metaTitle', parent.meta_title,
-                        'metaDescription', parent.meta_description,
                         'readTime', parent.read_time,
                         'createdAt', parent."createdAt",
                         'updatedAt', parent."updatedAt" )
@@ -86,10 +86,10 @@ export class PostsService {
                     WHERE children.parent_id = post.id ),
                 'tags', (
                     SELECT  array_agg(json_build_object(
-                            'id', tags.id,
-                            'content', tags.content,
-                            'createdAt', tags."createdAt",
-                            'updatedAt', tags."updatedAt" ) )
+                        'id', tags.id,
+                        'content', tags.content,
+                        'createdAt', tags."createdAt",
+                        'updatedAt', tags."updatedAt" ) )
                     FROM tags
                     JOIN post__tag ON (post.id = post__tag.post_id)
                 )
@@ -109,6 +109,8 @@ export class PostsService {
                 'slug', post.slug,
                 'title', post.title,
                 'image', post.image,
+                'metaTitle', post.meta_title,
+                'metaDescription', post.meta_description,
                 'readTime', post.read_time,
                 'createdAt', post."createdAt",
                 'updatedAt', post."updatedAt",
@@ -176,10 +178,10 @@ export class PostsService {
                     WHERE children.parent_id = post.id ),
                 'tags', (
                     SELECT  array_agg(json_build_object(
-                            'id', tags.id,
-                            'content', tags.content,
-                            'createdAt', tags."createdAt",
-                            'updatedAt', tags."updatedAt" ) )
+                        'id', tags.id,
+                        'content', tags.content,
+                        'createdAt', tags."createdAt",
+                        'updatedAt', tags."updatedAt" ) )
                     FROM tags
                     JOIN post__tag ON (post.id = post__tag.post_id)
                 )
@@ -198,6 +200,8 @@ export class PostsService {
                 'slug', post.slug,
                 'title', post.title,
                 'image', post.image,
+                'metaTitle', post.meta_title,
+                'metaDescription', post.meta_description,
                 'readTime', post.read_time,
                 'createdAt', post."createdAt",
                 'updatedAt', post."updatedAt",
@@ -287,6 +291,8 @@ export class PostsService {
                 'slug', post.slug,
                 'title', post.title,
                 'image', post.image,
+                'metaTitle', post.meta_title,
+                'metaDescription', post.meta_description,
                 'readTime', post.read_time,
                 'createdAt', post."createdAt",
                 'updatedAt', post."updatedAt",
@@ -354,10 +360,10 @@ export class PostsService {
                     WHERE children.parent_id = post.id ),
                 'tags', (
                     SELECT  array_agg(json_build_object(
-                            'id', tags.id,
-                            'content', tags.content,
-                            'createdAt', tags."createdAt",
-                            'updatedAt', tags."updatedAt" ) )
+                        'id', tags.id,
+                        'content', tags.content,
+                        'createdAt', tags."createdAt",
+                        'updatedAt', tags."updatedAt" ) )
                     FROM tags
                     JOIN post__tag ON (post.id = post__tag.post_id)
                 )
@@ -377,6 +383,8 @@ export class PostsService {
                 'slug', post.slug,
                 'title', post.title,
                 'image', post.image,
+                'metaTitle', post.meta_title,
+                'metaDescription', post.meta_description,
                 'readTime', post.read_time,
                 'createdAt', post."createdAt",
                 'updatedAt', post."updatedAt",
@@ -444,10 +452,10 @@ export class PostsService {
                     WHERE children.parent_id = post.id ),
                 'tags', (
                     SELECT  array_agg(json_build_object(
-                            'id', tags.id,
-                            'content', tags.content,
-                            'createdAt', tags."createdAt",
-                            'updatedAt', tags."updatedAt" ) )
+                        'id', tags.id,
+                        'content', tags.content,
+                        'createdAt', tags."createdAt",
+                        'updatedAt', tags."updatedAt" ) )
                     FROM tags
                     JOIN post__tag ON (post.id = post__tag.post_id)
                 )
@@ -471,6 +479,8 @@ export class PostsService {
             'slug', post.slug,
             'title', post.title,
             'image', post.image,
+            'metaTitle', post.meta_title,
+            'metaDescription', post.meta_description,
             'readTime', post.read_time,
             'createdAt', post."createdAt",
             'updatedAt', post."updatedAt",
@@ -538,10 +548,10 @@ export class PostsService {
                 WHERE children.parent_id = post.id ),
             'tags', (
                 SELECT  array_agg(json_build_object(
-                        'id', tags.id,
-                        'content', tags.content,
-                        'createdAt', tags."createdAt",
-                        'updatedAt', tags."updatedAt" ) )
+                    'id', tags.id,
+                    'content', tags.content,
+                    'createdAt', tags."createdAt",
+                    'updatedAt', tags."updatedAt" ) )
                 FROM tags
                 JOIN post__tag ON (post.id = post__tag.post_id)
             )
@@ -687,6 +697,8 @@ export class PostsService {
             'slug', post.slug,
             'title', post.title,
             'image', post.image,
+            'metaTitle', post.meta_title,
+            'metaDescription', post.meta_description,
             'readTime', post.read_time,
             'createdAt', post."createdAt",
             'updatedAt', post."updatedAt",
@@ -754,10 +766,10 @@ export class PostsService {
                 WHERE children.parent_id = post.id ),
             'tags', (
                 SELECT  array_agg(json_build_object(
-                        'id', tags.id,
-                        'content', tags.content,
-                        'createdAt', tags."createdAt",
-                        'updatedAt', tags."updatedAt" ) )
+                    'id', tags.id,
+                    'content', tags.content,
+                    'createdAt', tags."createdAt",
+                    'updatedAt', tags."updatedAt" ) )
                 FROM tags
                 JOIN post__tag ON (post.id = post__tag.post_id)
             )
