@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { instanceToPlain } from 'class-transformer';
-import { mockedPost, mockedPosts, mockedPostsByAuthorLeonXIII, mockedPostsByTagRestaurants, mockedPostsByTagsRestaurantAndNone, mockedPostsByType4, mockedPostsOrderedByAnalysisScore, mockedPostWithParent112 } from 'src/mock/posts.mock';
+import { mockedPost, mockedPosts, mockedPostsByAuthorLeonXIII, mockedPostsByType4, mockedPostsOrderedByAnalysisScore, mockedPostWithParent112 } from 'src/mock/posts.mock';
 import { DataSourceOptions } from "typeorm";
 import { AuthorsModule } from '../authors/authors.module';
 import { Author } from '../authors/entities';

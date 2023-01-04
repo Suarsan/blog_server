@@ -35,14 +35,20 @@ export class AuthorsService {
         return authors;
     }
 
-    async getAuthorByContext(context: string): Promise<any> {
-        const authorId: Context = await this.contextsRepository.query(
-            `SELECT DISTINCT ON (author.id) author.id 
+    async getAuthorByContext(context: string): Promise<Author> {
+        let response = await this.contextsRepository.query(
+            `SELECT DISTINCT ON (author.id) 
+            author.id,
+            author.email,
+            author.firstname,
+            author.lastname
             FROM author 
-            INNER JOIN context ON author.id = (SELECT author_id FROM context WHERE context = '$2b$12$69YsrPrLMakfAJTJxsO7rOSBp3OwH.LEM6EI33vjMwM2LWz2iqG/i');`
+            INNER JOIN context ON author.id = (SELECT author_id FROM context WHERE context = '${context}');`
         );
+        
+        const author: Author = response && (response.length > 0) ? response[0] : null;
 
-        return authorId;
+        return author;
     }
 
 }

@@ -23,6 +23,7 @@ export class PostsService {
                 'updatedAt', post."updatedAt",
                 'author', ( 
                     SELECT json_build_object(
+                        'id', author.id,
                         'email', author.email,
                         'firstname', author.firstname,
                         'lastname', author.lastname,
@@ -68,8 +69,6 @@ export class PostsService {
                         'enabled', parent.enabled,
                         'slug', parent.slug,
                         'title', parent.title,
-                        'image', parent.image,
-                        'readTime', parent.read_time,
                         'createdAt', parent."createdAt",
                         'updatedAt', parent."updatedAt" )
                     FROM post AS parent 
@@ -102,7 +101,7 @@ export class PostsService {
     }
     
     async getPostBySlug(slug: string): Promise<Post> {
-        const post: Post = (await this.postsRepository.query(`
+        let response = (await this.postsRepository.query(`
             SELECT json_build_object(
                 'id', post.id,
                 'enabled', post.enabled,
@@ -187,7 +186,11 @@ export class PostsService {
                 )
             ) FROM post     
             WHERE post.slug = '${slug}';
-        `))[0]['json_build_object'];
+        `));
+
+        response = response && (response.length > 0) ? response[0] : null;
+
+        const post = response ? response['json_build_object'] : null;
 
         return post;
     }
@@ -784,23 +787,23 @@ export class PostsService {
         return posts;
     }
 
-    async create(enabled, slug, title, metaTitle, metaDescription, image, readTime, typeId, authorId, parentId) {
+    async create(enabled, slug, title, metaTitle, metaDescription, image, readTime, typeId, authorId, parentId): Promise<Post> {
 
-        const post: Post = await this.postsRepository.query(`
-        INSER INTO (
-            createdAt, 
-            updatedAt,
+        const response = await this.postsRepository.query(`
+        INSERT INTO post (
+            "createdAt", 
+            "updatedAt",
             enabled,
             slug,
             title,
-            metaTitle,
-            metaDescription,
+            meta_title,
+            meta_description,
             image,
-            readTime,
+            read_time,
             type_id,
             author_id,
             parent_id
-        ) VALUES(
+        ) VALUES (
             NOW(),
             NOW(),
             '${enabled}',
@@ -810,11 +813,13 @@ export class PostsService {
             '${metaDescription}',
             '${image}',
             '${readTime}',
-            '${typeId}',
-            '${authorId}',
-            '${parentId}',
-
+            ${typeId || null},
+            ${authorId || null},
+            ${parentId || null}
+            
         ) RETURNING *;`);
+            
+        const post: Post = response && (response.length > 0) ? response[0] : null; 
 
         return post;
 

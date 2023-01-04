@@ -19,15 +19,28 @@ export class AnalysisService {
         return analysis;
     }
 
-    async create(analysisInput: AnalysisInput, postId): Promise<Analysis> {
+    async create(analysisInput: AnalysisInput, postId: number): Promise<Analysis> {
 
-        const savedAnalysis = await this.analysisRepository.query(
-            `INSERT INTO analysis (score, pros, cons, "createdAt", "updatedAt", post_id)
-            VALUES (${analysisInput.score}, ${analysisInput.pros}, ${analysisInput.cons}, NOW(), NOW(), ${postId})
-            RETURNING *;`
+        const response = await this.analysisRepository.query(
+            `INSERT INTO analysis (
+                score, 
+                pros, 
+                cons, 
+                "createdAt",
+                "updatedAt", 
+                post_id
+            ) VALUES (
+                '${analysisInput.score}', 
+                '${analysisInput.pros}', 
+                '${analysisInput.cons}', 
+                NOW(), 
+                NOW(), 
+                '${postId}'
+            ) RETURNING *;`
         );
 
-        delete savedAnalysis.postId;
+        const savedAnalysis = response && (response.length > 0) ? response[0] : null
+        delete savedAnalysis.post_id;
 
         return savedAnalysis;
     }
