@@ -126,12 +126,15 @@ export class PostsResolver {
             addPostInput.readTime, 
             addPostInput.type.id, 
             author.id, 
-            addPostInput.parentId
+            addPostInput.parentId,
+            addPostInput.paragraphs
         );
 
         if (!createdPost) throw new ApolloError('Post can not be created');
-
+        
         const createdAnalysis: Analysis = await this.analysisService.create(addPostInput.analysis, createdPost.id);
+        
+        if (!createdAnalysis) throw new ApolloError('Analysis can not be created');
 
         createdPost.analysis = createdAnalysis;
 

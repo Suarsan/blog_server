@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ParagraphInput } from './dtos/paragraphInput.dto';
 import { Post } from './entities';
 
 @Injectable()
@@ -787,9 +788,9 @@ export class PostsService {
         return posts;
     }
 
-    async create(enabled, slug, title, metaTitle, metaDescription, image, readTime, typeId, authorId, parentId): Promise<Post> {
+    async create(enabled: boolean, slug: string, title: string, metaTitle: string, metaDescription: string, image: string, readTime: number, typeId: string | number, authorId: string | number, parentId: string | number, paragraphs: Array<ParagraphInput>): Promise<Post> {
 
-        const response = await this.postsRepository.query(`
+        const flatPost = await this.postsRepository.query(`
         INSERT INTO post (
             "createdAt", 
             "updatedAt",
@@ -818,10 +819,36 @@ export class PostsService {
             ${parentId || null}
             
         ) RETURNING *;`);
-            
-        const post: Post = response && (response.length > 0) ? response[0] : null; 
+        
+        const createdPost: Post = flatPost && (flatPost.length > 0) ? flatPost[0] : null;
 
-        return post;
+        const values = paragraphs.map(p => 
+            `(
+                '${p.content}', 
+                '${p.classes}',
+                '${p.position}', 
+                NOW(), 
+                NOW(),
+                ${p.htmlTag.id}, 
+                ${createdPost.id}
+            )`).join(',');
+
+        const createdParagraphs = await this.postsRepository.query(`
+            INSERT INTO paragraph (
+                content,
+                classes,
+                position,
+                "createdAt",
+                "updatedAt",
+                htmltag_id,
+                post_id
+            ) VALUES 
+                ${values} 
+            RETURNING *`);
+
+        createdPost.paragraphs = createdParagraphs;
+
+        return createdPost;
 
     }
 }
