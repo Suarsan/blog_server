@@ -791,34 +791,34 @@ export class PostsService {
     async create(enabled: boolean, slug: string, title: string, metaTitle: string, metaDescription: string, image: string, readTime: number, typeId: string | number, authorId: string | number, parentId: string | number, paragraphs: Array<ParagraphInput>): Promise<Post> {
 
         const flatPost = await this.postsRepository.query(`
-        INSERT INTO post (
-            "createdAt", 
-            "updatedAt",
-            enabled,
-            slug,
-            title,
-            meta_title,
-            meta_description,
-            image,
-            read_time,
-            type_id,
-            author_id,
-            parent_id
-        ) VALUES (
-            NOW(),
-            NOW(),
-            '${enabled}',
-            '${slug}',
-            '${title}',
-            '${metaTitle}',
-            '${metaDescription}',
-            '${image}',
-            '${readTime}',
-            ${typeId || null},
-            ${authorId || null},
-            ${parentId || null}
-            
-        ) RETURNING *;`);
+            INSERT INTO post (
+                "createdAt", 
+                "updatedAt",
+                enabled,
+                slug,
+                title,
+                meta_title,
+                meta_description,
+                image,
+                read_time,
+                type_id,
+                author_id,
+                parent_id
+            ) VALUES (
+                NOW(),
+                NOW(),
+                '${enabled}',
+                '${slug}',
+                '${title}',
+                '${metaTitle}',
+                '${metaDescription}',
+                '${image}',
+                '${readTime}',
+                ${typeId || null},
+                ${authorId || null},
+                ${parentId || null}
+                
+            ) RETURNING *;`);
         
         const createdPost: Post = flatPost && (flatPost.length > 0) ? flatPost[0] : null;
 
@@ -851,4 +851,34 @@ export class PostsService {
         return createdPost;
 
     }
+
+    async deletePost(id: number): Promise<Post> {
+
+        const analysis = await this.postsRepository.query(`
+            DELETE FROM analysis 
+            WHERE post_id = ${id}
+            RETURNING *;
+        `);
+
+        const paragraphs = await this.postsRepository.query(`
+            DELETE FROM paragraph 
+            WHERE post_id = ${id}
+            RETURNING *;
+        `);
+
+        const flatPost = await this.postsRepository.query(`
+            DELETE FROM post 
+            WHERE id = ${id}
+            RETURNING *;
+        `);
+        
+        const post: Post = flatPost && (flatPost.length > 0) ? flatPost[0] : null;
+        
+        post.paragraphs = paragraphs && paragraphs.length ? paragraphs : null;
+        
+        post.analysis = analysis && analysis.length ? analysis[0] : null;
+
+        return post;
+    }
+
 }

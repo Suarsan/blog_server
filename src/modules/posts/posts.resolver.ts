@@ -4,6 +4,7 @@ import { AuthorsService } from '../authors/authors.service';
 import { Author } from '../authors/entities';
 import { AnalysisService } from './analysis.service';
 import { AddPostInput } from './dtos/addPostInput.dto';
+import { DeletePostInput } from './dtos/deletePostInput.dto';
 import { Analysis, Post } from './entities';
 import { PostsService } from './posts.service';
 
@@ -140,6 +141,24 @@ export class PostsResolver {
 
         return createdPost;
     }
+
+    @Mutation('deletePost')
+    async deletePost(@Args('deletePostInput') deletePostInput: DeletePostInput): Promise<Post> {
+
+        const author: Author = await this.authorsService.getAuthorByContext(deletePostInput.context);
+
+        if (!author) throw new ApolloError('Authentication error');
+
+        const post: Post = await this.postsService.getPostBySlug(deletePostInput.slug);
+        
+        if (!post) throw new ApolloError('Post not found');
+
+        if (post.author.id !== author.id) throw new ApolloError('Permission denied');
+
+        const deletedPost = this.postsService.deletePost(post.id);
+
+        return deletedPost;
+    }
     
     
     
@@ -163,21 +182,6 @@ export class PostsResolver {
     
     // @Mutation('updatePost')
     // async updatePost(@Args('post') post: string): Promise<Post> {
-    //     // const htmlTag = await this.postsService.getHtmlTagByContent(content);
-
-    //     // if (htmlTag) throw new ApolloError('Html tag already exists')
-
-    //     // const savedHtmlTag = await this.postsService.create(content);
-
-    //     // if (!savedHtmlTag) {
-    //     //     throw new NotFoundException('Html tag not found');
-    //     // }
-
-    //     // return savedHtmlTag;
-    // }
-
-    // @Mutation('deletePost')
-    // async deletePost(@Args('post') post: string): Promise<Post> {
     //     // const htmlTag = await this.postsService.getHtmlTagByContent(content);
 
     //     // if (htmlTag) throw new ApolloError('Html tag already exists')
