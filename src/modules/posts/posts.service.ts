@@ -852,13 +852,64 @@ export class PostsService {
 
     }
 
-    async deletePost(id: number): Promise<Post> {
+    async update(id: number, enabled: boolean, slug: string, title: string, metaTitle: string, metaDescription: string, image: string, readTime: number, typeId: string | number, authorId: string | number, parentId: string | number, paragraphs: Array<ParagraphInput>): Promise<Post> {
 
-        const analysis = await this.postsRepository.query(`
-            DELETE FROM analysis 
+        const flatPost = await this.postsRepository.query(`
+            UPDATE post 
+            SET
+                "createdAt" = NOW(), 
+                "updatedAt" = NOW(),
+                enabled = '${enabled}',
+                slug = '${slug}',
+                title = '${title}',
+                meta_title = '${metaTitle}',
+                meta_description = '${metaDescription}',
+                image = '${image}',
+                read_time = '${readTime}',
+                type_id = ${typeId || null},
+                author_id = ${authorId || null},
+                parent_id = ${parentId || null}
+            WHERE id = ${id}
+            RETURNING *;`);
+        
+        const updatedPost: Post = flatPost && (flatPost.length > 0) ? flatPost[0] : null;
+
+        await this.postsRepository.query(`
+            DELETE FROM paragraph
             WHERE post_id = ${id}
-            RETURNING *;
         `);
+
+        const values = paragraphs.map(p => 
+            `(
+                '${p.content}', 
+                '${p.classes}',
+                '${p.position}', 
+                NOW(), 
+                NOW(),
+                ${p.htmlTag.id}, 
+                ${id}
+            )`).join(',');
+
+        const createdParagraphs = await this.postsRepository.query(`
+            INSERT INTO paragraph (
+                content,
+                classes,
+                position,
+                "createdAt",
+                "updatedAt",
+                htmltag_id,
+                post_id
+            ) VALUES 
+                ${values} 
+            RETURNING *`);
+
+        updatedPost.paragraphs = createdParagraphs;
+
+        return updatedPost;
+
+    }
+
+    async delete(id: number): Promise<Post> {
 
         const paragraphs = await this.postsRepository.query(`
             DELETE FROM paragraph 
@@ -876,8 +927,6 @@ export class PostsService {
         
         post.paragraphs = paragraphs && paragraphs.length ? paragraphs : null;
         
-        post.analysis = analysis && analysis.length ? analysis[0] : null;
-
         return post;
     }
 

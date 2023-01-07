@@ -44,4 +44,12 @@ export class AnalysisService {
 
         return savedAnalysis;
     }
+
+    async deleteByPost(postId: number) {
+        return await this.analysisRepository.query(`
+            DELETE FROM analysis 
+            WHERE post_id = ${postId}
+            RETURNING *;
+        `);
+    }
 }

@@ -5,6 +5,7 @@ import { Author } from '../authors/entities';
 import { AnalysisService } from './analysis.service';
 import { AddPostInput } from './dtos/addPostInput.dto';
 import { DeletePostInput } from './dtos/deletePostInput.dto';
+import { UpdatePostInput } from './dtos/updatePostInput.dto';
 import { Analysis, Post } from './entities';
 import { PostsService } from './posts.service';
 
@@ -142,6 +143,48 @@ export class PostsResolver {
         return createdPost;
     }
 
+    @Mutation('updatePost')
+    async updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput): Promise<Post> {
+
+        const author: Author = await this.authorsService.getAuthorByContext(updatePostInput.context);
+
+        if (!author) throw new ApolloError('Authentication error');
+
+        const post: Post = await this.postsService.getPostBySlug(updatePostInput.slug);
+        
+        if (!post) throw new ApolloError('Post not found');
+
+        if (post.author.id !== author.id) throw new ApolloError('Permission denied');
+
+        const updatedPost = await this.postsService.update(
+            post.id,
+            true,
+            updatePostInput.slug,
+            updatePostInput.title,
+            updatePostInput.metaTitle,
+            updatePostInput.metaDescription,
+            updatePostInput.image,
+            updatePostInput.readTime,
+            updatePostInput.type.id,
+            author.id,
+            updatePostInput.parentId,
+            updatePostInput.paragraphs
+        );
+
+        const deletedAnalysis = await this.analysisService.deleteByPost(post.id);
+
+        if (!deletedAnalysis || !(deletedAnalysis.length > 0)) throw new ApolloError('Analysis can not be deleted');
+
+        const createdAnalysis: Analysis = await this.analysisService.create(updatePostInput.analysis, post.id);
+        
+        if (!createdAnalysis) throw new ApolloError('Analysis can not be created');
+
+        updatedPost.analysis = createdAnalysis;
+
+        return updatedPost;
+        
+    }
+
     @Mutation('deletePost')
     async deletePost(@Args('deletePostInput') deletePostInput: DeletePostInput): Promise<Post> {
 
@@ -155,67 +198,13 @@ export class PostsResolver {
 
         if (post.author.id !== author.id) throw new ApolloError('Permission denied');
 
-        const deletedPost = this.postsService.deletePost(post.id);
+        const deletedAnalysis = await this.analysisService.deleteByPost(post.id);
+
+        if (!deletedAnalysis || !(deletedAnalysis.length > 0)) throw new ApolloError('Analysis can not be deleted');
+
+        const deletedPost = this.postsService.delete(post.id);
 
         return deletedPost;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // @Mutation('updatePost')
-    // async updatePost(@Args('post') post: string): Promise<Post> {
-    //     // const htmlTag = await this.postsService.getHtmlTagByContent(content);
 
-    //     // if (htmlTag) throw new ApolloError('Html tag already exists')
-
-    //     // const savedHtmlTag = await this.postsService.create(content);
-
-    //     // if (!savedHtmlTag) {
-    //     //     throw new NotFoundException('Html tag not found');
-    //     // }
-
-    //     // return savedHtmlTag;
-    // }
-
-    // @Query('getHtmlTags')
-    // async getHtmlTags(): Promise<Array<HtmlTag>> {
-    //     const htmltags: Array<HtmlTag> = await this.htmltagsService.getHtmlTags();
-
-    //     if (!(htmltags.length > 0)) throw new ApolloError('Html tags not found');
-
-    //     return htmltags;
-    // }
-
-    // @Mutation('addHtmlTag')
-    // async addHtmlTag(@Args('content') content: string): Promise<HtmlTag> {
-    //     const htmlTag = await this.htmltagsService.getHtmlTagByContent(content);
-
-    //     if (htmlTag) throw new ApolloError('Html tag already exists')
-
-    //     const savedHtmlTag = await this.htmltagsService.create(content);
-
-    //     if (!savedHtmlTag) {
-    //         throw new NotFoundException('Html tag not found');
-    //     }
-
-    //     return savedHtmlTag;
-    // }
 }
