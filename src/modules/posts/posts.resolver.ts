@@ -202,7 +202,7 @@ export class PostsResolver {
 
         if (!deletedAnalysis || !(deletedAnalysis.length > 0)) throw new ApolloError('Analysis can not be deleted');
 
-        const deletedPost = this.postsService.delete(post.id);
+        const deletedPost = await this.postsService.delete(post.id);
 
         return deletedPost;
     }

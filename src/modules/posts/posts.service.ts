@@ -923,7 +923,7 @@ export class PostsService {
             RETURNING *;
         `);
         
-        const post: Post = flatPost && (flatPost.length > 0) ? flatPost[0] : null;
+        const post: Post = flatPost && (flatPost.length > 0) ? flatPost[0][0] : null;
         
         post.paragraphs = paragraphs && paragraphs.length ? paragraphs : null;
         
