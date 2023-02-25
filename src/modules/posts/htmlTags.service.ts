@@ -17,7 +17,7 @@ export class HtmlTagsService {
         return htmlTags;
     }
     
-    async create(content): Promise<HtmlTag> {
+    async create(content: string): Promise<HtmlTag> {
         const htmlTagAlreadyExists: HtmlTag = await this.htmlTagsRepository.query(
             `SELECT * from "html-tag" WHERE content = ${content};`
         );

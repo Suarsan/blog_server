@@ -18,7 +18,7 @@ export class TypesService {
         return types;
     }
 
-    async create(content): Promise<Type> {
+    async create(content: string): Promise<Type> {
         const typeAlreadyExists: Type = await this.typesRepository.query(
             `SELECT * from type WHERE content = ${content} LIMIT 1;`
         );
