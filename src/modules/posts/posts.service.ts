@@ -90,8 +90,9 @@ export class PostsService {
                         'content', tags.content,
                         'createdAt', tags."createdAt",
                         'updatedAt', tags."updatedAt" ) )
-                    FROM tags
-                    JOIN post__tag ON (post.id = post__tag.post_id)
+                    FROM post__tag
+                    JOIN tags ON (post__tag.tag_id = tags.id)
+                    WHERE post_id = post.id
                 )
             ) 
             ORDER BY post."updatedAt" DESC ) 
@@ -182,8 +183,9 @@ export class PostsService {
                         'content', tags.content,
                         'createdAt', tags."createdAt",
                         'updatedAt', tags."updatedAt" ) )
-                    FROM tags
-                    JOIN post__tag ON (post.id = post__tag.post_id)
+                    FROM post__tag
+                    JOIN tags ON (post__tag.tag_id = tags.id)
+                    WHERE post_id = post.id
                 )
             ) FROM post     
             WHERE post.slug = '${slug}';
@@ -277,8 +279,9 @@ export class PostsService {
                         'content', tags.content,
                         'createdAt', tags."createdAt",
                         'updatedAt', tags."updatedAt" ) )
-                    FROM tags
-                    JOIN post__tag ON (post.id = post__tag.post_id)
+                    FROM post__tag
+                    JOIN tags ON (post__tag.tag_id = tags.id)
+                    WHERE post_id = post.id
                 )
             ) FROM post     
             WHERE post.slug = '${slug}' AND post.enabled = true;

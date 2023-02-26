@@ -8,12 +8,14 @@ import { DeletePostInput } from './dtos/deletePostInput.dto';
 import { UpdatePostInput } from './dtos/updatePostInput.dto';
 import { Analysis, Post } from './entities';
 import { PostsService } from './posts.service';
+import { TagsService } from './tags.service';
 
 @Resolver()
 export class PostsResolver {
 
     constructor(private readonly postsService: PostsService,
                 private readonly analysisService: AnalysisService,
+                private readonly tagsService: TagsService,
                 private readonly authorsService: AuthorsService) {}
 
     @Query('getPosts')
@@ -138,9 +140,12 @@ export class PostsResolver {
         
         if (!createdAnalysis) throw new ApolloError('Analysis can not be created');
 
-        createdPost.analysis = createdAnalysis;
+        addPostInput.tags.forEach(async tag => {
+            await this.tagsService.createPostTag(createdPost.id, tag.id);
+        });
 
-        return createdPost;
+        return await this.postsService.getPostBySlug(addPostInput.slug);
+
     }
 
     @Mutation('updatePost')
@@ -156,7 +161,7 @@ export class PostsResolver {
 
         if (post.author.id !== author.id) throw new ApolloError('Permission denied');
 
-        const updatedPost = await this.postsService.update(
+        await this.postsService.update(
             post.id,
             true,
             updatePostInput.slug,
@@ -179,7 +184,13 @@ export class PostsResolver {
         
         if (!createdAnalysis) throw new ApolloError('Analysis can not be created');
 
-        updatedPost.analysis = createdAnalysis;
+        await this.tagsService.deleteTagsByPostId(post.id);
+
+        updatePostInput.tags.forEach(async tag => {
+            await this.tagsService.createPostTag(post.id, tag.id);
+        });
+
+        const updatedPost = await this.postsService.getPostBySlug(updatePostInput.slug);
 
         return updatedPost;
         
@@ -203,6 +214,8 @@ export class PostsResolver {
         if (!deletedAnalysis || !(deletedAnalysis.length > 0)) throw new ApolloError('Analysis can not be deleted');
 
         const deletedPost = await this.postsService.delete(post.id);
+
+        await this.tagsService.deleteTagsByPostId(post.id);
 
         return deletedPost;
     }
