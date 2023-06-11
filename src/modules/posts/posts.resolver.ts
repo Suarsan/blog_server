@@ -72,15 +72,15 @@ export class PostsResolver {
         return posts;
     }
     
-    // @Query('getPostsByTag')
-    // async getPostsByTag(@Args('tag') tag: string): Promise<Array<Post>> {
+    @Query('getPostsByTag')
+    async getPostsByTag(@Args('tag') tag: string): Promise<Array<Post>> {
 
-    //     const posts: Array<Post> = await this.postsService.getPostsByTag(tag);
+        const posts: Array<Post> = await this.postsService.getPostsByTag(tag);
 
-    //     if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
 
-    //     return posts;
-    // }
+        return posts;
+    }
     
     // @Query('getPostsByAnyTags')
     // async getPostsByAnyTags(@Args('tags') tags: Array<string>): Promise<Array<Post>> {
