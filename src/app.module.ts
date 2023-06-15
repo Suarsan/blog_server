@@ -14,6 +14,8 @@ import { PostsModule } from './modules/posts/posts.module';
     DatabaseModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      playground: false,
+      introspection: false,
       typePaths: ['./**/*.graphql']
     }),
     AuthorsModule,

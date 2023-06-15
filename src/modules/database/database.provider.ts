@@ -6,7 +6,7 @@ import { DataSourceOptions } from "typeorm";
 export const DatabaseProvider: DynamicModule = TypeOrmModule.forRootAsync({
     inject: [ConfigService],
     async useFactory(config: ConfigService) {
-        const dbConfig = {
+        return {
             type: 'postgres',
             host: config.get('DB_HOST'),
             port: +config.get('DB_PORT'),
@@ -17,6 +17,5 @@ export const DatabaseProvider: DynamicModule = TypeOrmModule.forRootAsync({
             synchronize: false,
             logging: config.get("DB_LOGGING")
         } as DataSourceOptions;
-        return dbConfig;
     }
 })
