@@ -12,7 +12,7 @@ export class HtmlTagsResolver {
     async getHtmlTags(): Promise<Array<HtmlTag>> {
         const htmlTags: Array<HtmlTag> = await this.htmlTagsService.getHtmlTags();
 
-        if (!(htmlTags.length > 0)) throw new ApolloError('Html tags not found');
+        if (!(htmlTags?.length > 0)) throw new ApolloError('Html tags not found');
 
         return htmlTags;
     }

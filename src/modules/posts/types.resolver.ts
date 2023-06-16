@@ -12,7 +12,7 @@ export class TypesResolver {
     async getPostTypes(): Promise<Array<Type>> {
         const types: Array<Type> = await this.typesService.getTypes();
 
-        if (!(types.length > 0)) throw new ApolloError('Types not found');
+        if (!(types?.length > 0)) throw new ApolloError('Types not found');
 
         return types;
     }

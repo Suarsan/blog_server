@@ -12,7 +12,7 @@ export class TagsResolver {
     async getTags(): Promise<Array<Tag>> {
         const tags: Array<Tag> = await this.tagsService.getTags();
 
-        if (!(tags.length > 0)) throw new ApolloError('Tags not found');
+        if (!(tags?.length > 0)) throw new ApolloError('Tags not found');
 
         return tags;
     }

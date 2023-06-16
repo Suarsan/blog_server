@@ -12,7 +12,7 @@ export class AnalysisResolver {
     async getAnalysis(): Promise<Array<Analysis>> {
         const analysis: Array<Analysis> = await this.analysisService.getAnalysis();
 
-        if (!(analysis.length > 0)) throw new ApolloError('Analysis not found');
+        if (!(analysis?.length > 0)) throw new ApolloError('Analysis not found');
 
         return analysis;
     }

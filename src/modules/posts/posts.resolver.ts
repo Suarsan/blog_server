@@ -22,7 +22,7 @@ export class PostsResolver {
     async getPosts(): Promise<Array<Post>> {
         const posts: Array<Post> = await this.postsService.getPosts();
 
-        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts?.length > 0)) throw new ApolloError('Posts not found');
 
         return posts;
     }
@@ -49,7 +49,7 @@ export class PostsResolver {
     async getPostsByParent(@Args('parentId') parentId: number): Promise<Array<Post>> {
         const posts: Array<Post> = await this.postsService.getPostsByParent(parentId);
 
-        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts?.length > 0)) throw new ApolloError('Posts not found');
 
         return posts;
     }
@@ -58,7 +58,7 @@ export class PostsResolver {
     async getPostsByAuthor(@Args('firstname') firstname: string, @Args('lastname') lastname: string,): Promise<Array<Post>> {
         const posts: Array<Post> = await this.postsService.getPostsByAuthor(firstname, lastname);
 
-        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts?.length > 0)) throw new ApolloError('Posts not found');
 
         return posts;
     }
@@ -67,7 +67,7 @@ export class PostsResolver {
     async getPostsByType(@Args('typeId') typeId: number): Promise<Array<Post>> {
         const posts: Array<Post> = await this.postsService.getPostsByType(typeId);
 
-        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts?.length > 0)) throw new ApolloError('Posts not found');
 
         return posts;
     }
@@ -77,7 +77,7 @@ export class PostsResolver {
 
         const posts: Array<Post> = await this.postsService.getPostsByTag(tag);
 
-        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts?.length > 0)) throw new ApolloError('Posts not found');
 
         return posts;
     }
@@ -104,7 +104,7 @@ export class PostsResolver {
     async getPostsByScore(): Promise<Array<Post>> {
         const posts: Array<Post> = await this.postsService.getPostsByScore();
 
-        if (!(posts.length > 0)) throw new ApolloError('Posts not found');
+        if (!(posts?.length > 0)) throw new ApolloError('Posts not found');
 
         return posts;
     }
@@ -178,7 +178,7 @@ export class PostsResolver {
 
         const deletedAnalysis = await this.analysisService.deleteByPost(post.id);
 
-        if (!deletedAnalysis || !(deletedAnalysis.length > 0)) throw new ApolloError('Analysis can not be deleted');
+        if (!deletedAnalysis || !(deletedAnalysis?.length > 0)) throw new ApolloError('Analysis can not be deleted');
 
         const createdAnalysis: Analysis = await this.analysisService.create(updatePostInput.analysis, post.id);
         
@@ -211,7 +211,7 @@ export class PostsResolver {
 
         const deletedAnalysis = await this.analysisService.deleteByPost(post.id);
 
-        if (!deletedAnalysis || !(deletedAnalysis.length > 0)) throw new ApolloError('Analysis can not be deleted');
+        if (!deletedAnalysis || !(deletedAnalysis?.length > 0)) throw new ApolloError('Analysis can not be deleted');
 
         const deletedPost = await this.postsService.delete(post.id);
 
