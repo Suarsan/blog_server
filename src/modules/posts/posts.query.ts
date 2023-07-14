@@ -433,8 +433,9 @@ export const GET_POSTS_BY_AUTHOR = () => {
                         'content', tags.content,
                         'createdAt', tags."createdAt",
                         'updatedAt', tags."updatedAt" ) )
-                    FROM tags
-                    JOIN post__tag ON (post.id = post__tag.post_id)
+                    FROM post__tag
+                    JOIN tags ON (post__tag.tag_id = tags.id)
+                    WHERE post_id = post.id
                 )
             ) 
             ORDER BY post."updatedAt" DESC ) 
@@ -525,8 +526,9 @@ export const GET_POSTS_BY_TYPE = () => {
                         'content', tags.content,
                         'createdAt', tags."createdAt",
                         'updatedAt', tags."updatedAt" ) )
-                    FROM tags
-                    JOIN post__tag ON (post.id = post__tag.post_id)
+                    FROM post__tag
+                    JOIN tags ON (post__tag.tag_id = tags.id)
+                    WHERE post_id = post.id
                 )
             ) 
             ORDER BY post."updatedAt" DESC ) 
@@ -610,12 +612,13 @@ export const GET_POSTS_BY_TAG = () => {
                     WHERE children.parent_id = post.id ),
                 'tags', (
                     SELECT  array_agg(json_build_object(
-                            'id', tags.id,
-                            'content', tags.content,
-                            'createdAt', tags."createdAt",
-                            'updatedAt', tags."updatedAt" ) )
-                    FROM tags
-                    JOIN post__tag ON (post.id = post__tag.post_id)
+                        'id', tags.id,
+                        'content', tags.content,
+                        'createdAt', tags."createdAt",
+                        'updatedAt', tags."updatedAt" ) )
+                    FROM post__tag
+                    JOIN tags ON (post__tag.tag_id = tags.id)
+                    WHERE post_id = post.id
                 )
             ) 
             ORDER BY post."updatedAt" DESC ) 
@@ -713,8 +716,9 @@ export const GET_POSTS_BY_SCORE = () => {
                         'content', tags.content,
                         'createdAt', tags."createdAt",
                         'updatedAt', tags."updatedAt" ) )
-                    FROM tags
-                    JOIN post__tag ON (post.id = post__tag.post_id)
+                    FROM post__tag
+                    JOIN tags ON (post__tag.tag_id = tags.id)
+                    WHERE post_id = post.id
                 )
             )
             ORDER BY analysis.score ASC, post."updatedAt" DESC
