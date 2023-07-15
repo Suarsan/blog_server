@@ -14,8 +14,7 @@ export class PostsService {
         return (await this.postsRepository.query(GET_POSTS()))[0]['array_agg'];
     }
     
-    async getPostBySlug(slug: string): Promise<Post> {
-        
+    async getPostBySlug(slug: string): Promise<Post> {   
         const data = (await this.postsRepository.query(GET_POST_BY_SLUG(), [slug]));
         const response = data && (data.length > 0) ? data[0] : null;
         return response ? response['json_build_object'] : null;

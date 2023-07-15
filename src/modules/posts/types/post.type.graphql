@@ -21,6 +21,7 @@ type Post {
 type Query {
     getPosts:[Post!]
     getPostBySlug(slug: String!): Post
+    getEnabledPostByUrl(url: String!): Post
     getEnabledPostBySlug(slug: String!): Post
     getPostsByParent(parentId: Int): [Post]
     getPostsByAuthor(firstname: String!, lastname: String!): [Post]

@@ -31,7 +31,7 @@ export class PostsResolver {
     async getPostBySlug(@Args('slug') slug: string): Promise<Post> {
         const post: Post = await this.postsService.getPostBySlug(slug);
 
-        if (!post) throw new ApolloError('Posts not found');
+        if (!post) throw new ApolloError('Post not found');
 
         return post;
     }
@@ -40,11 +40,21 @@ export class PostsResolver {
     async getEnabledPostBySlug(@Args('slug') slug: string): Promise<Post> {
         const post: Post = await this.postsService.getEnabledPostBySlug(slug);
     
-        if (!post) throw new ApolloError('Posts not found');
+        if (!post) throw new ApolloError('Post not found');
     
         return post;
     }
     
+    @Query('getEnabledPostByUrl')
+    async getPostByUrl(@Args('url') url: string): Promise<Post> {
+        const splittedUrl = url.split('/');
+        const post: Post = await this.postsService.getEnabledPostBySlug(splittedUrl.pop());
+        if (!post) throw new ApolloError('Posts not found');
+        if (post.parent && post.parent.slug !== splittedUrl.pop()) throw new ApolloError('Post not found'); 
+
+        return post;
+    }
+
     @Query('getPostsByParent')
     async getPostsByParent(@Args('parentId') parentId: number): Promise<Array<Post>> {
         const posts: Array<Post> = await this.postsService.getPostsByParent(parentId);
