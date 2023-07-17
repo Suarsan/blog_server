@@ -245,6 +245,7 @@ export const GET_ENABLED_POST_BY_SLUG = () => {
                         'enabled', children.enabled,
                         'slug', children.slug,
                         'title', children.title,
+                        'image', children.image
                         'createdAt', children."createdAt",
                         'updatedAt', children."updatedAt" ))
                     FROM post AS children 
