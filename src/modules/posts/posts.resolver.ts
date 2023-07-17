@@ -48,7 +48,7 @@ export class PostsResolver {
     @Query('getEnabledPostByUrl')
     async getPostByUrl(@Args('url') url: string): Promise<Post> {
         const splittedUrl = url.split('/');
-        const post: Post = await this.postsService.getEnabledPostBySlug(splittedUrl.pop());
+        const post: Post = await this.postsService.getEnabledPostBySlug(splittedUrl.pop().replace(/#.*/, ""));
         if (!post) throw new ApolloError('Posts not found');
         if (post.parent && post.parent.slug !== splittedUrl.pop()) throw new ApolloError('Post not found'); 
 
