@@ -17,7 +17,7 @@ export class AnalysisService {
     async create(analysisInput: AnalysisInput, postId: number): Promise<Analysis> {
 
         const params = [analysisInput.score, analysisInput.pros, analysisInput.cons, postId];
-        const response = await this.analysisRepository.query(INSERT_ANALYSIS(), [params]);
+        const response = await this.analysisRepository.query(INSERT_ANALYSIS(), params);
         const savedAnalysis = response && (response.length > 0) ? response[0] : null
         delete savedAnalysis.post_id;
 
