@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AuthorsModule } from './modules/authors/authors.module';
 import { DatabaseModule } from './modules/database/database.module';
 import { PostsModule } from './modules/posts/posts.module';
+import { ApiTwitterModule } from './modules/api-twitter/api-twitter.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { PostsModule } from './modules/posts/posts.module';
       typePaths: ['./**/*.graphql']
     }),
     AuthorsModule,
-    PostsModule
+    PostsModule,
+    ApiTwitterModule
   ],
   controllers: [],
   providers: [],
