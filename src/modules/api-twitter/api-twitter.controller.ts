@@ -8,7 +8,7 @@ export class ApiTwitterController {
 
     @Get('oauth-url')
     getOAuthUrl() {
-        return this.apiTwitterService.createSignatureOauth1a();
+        return this.apiTwitterService.tweet('Hello');
     }
 
 }
