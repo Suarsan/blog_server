@@ -1,0 +1,36 @@
+type RrssConnection {
+    id:Int
+    name:String!
+    tokens:String
+    type: RrssType
+}
+
+type Query {
+    getRrssConnections:[RrssConnection]
+    getRrssConnection(name: String!):RrssConnection
+}
+
+type Mutation {
+    addRrssConnection(addRrssConnectionInput: AddRrssConnectionInput!): RrssConnection!
+    updateRrssConnection(updateRrssConnectionInput: UpdateRrssConnectionInput!): RrssConnection!
+    deleteRrssConnection(deleteRrssConnectionInput: DeleteRrssConnectionInput!): RrssConnection!
+}
+
+input AddRrssConnectionInput {
+    context: String!
+    name: String!
+    tokens: String
+    typeId: Int!
+}
+
+input UpdateRrssConnectionInput {
+    context: String!
+    name: String!
+    tokens: String
+    typeId: Int!
+}
+
+input DeleteRrssConnectionInput {
+    context: String!
+    name: String!
+}

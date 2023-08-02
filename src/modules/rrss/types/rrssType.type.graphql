@@ -1,0 +1,10 @@
+type RrssType {
+    id:Int
+    createdAt:String
+    updatedAt:String
+    name:String!
+}
+
+type Query {
+    getRrssTypes:[RrssType]
+}

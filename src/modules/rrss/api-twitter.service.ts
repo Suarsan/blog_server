@@ -8,11 +8,8 @@ export class ApiTwitterService {
 
     constructor(private http: HttpService) {}
 
-    private customEncode(value) {
-        return encodeURIComponent(value);
-    }
-    
-    async tweet(text) {
+
+    async tweet(tokens, text) {
 
         const http_method = 'POST';
         const url = "https://api.twitter.com/2/tweets";
@@ -20,10 +17,10 @@ export class ApiTwitterService {
         const timestamp = Math.floor(Date.now() / 1000);
         const oauthVersion = "1.0";
         const oauthSignatureMethod = "HMAC-SHA1";
-        const oauthConsumerKey = "6OkNZ72lXI0QoZFG8miMIKpzf";
-        const oauthConsumerSecret = "izTpZktlHv3NkEFkz6TtqvxfMqhwV4VUxPBsnGmSsUZRnVXCpp";
-        const oauthToken = "1676320791758004225-GyaOvia3giEQbu4EKzBTwL2oscaVBH";
-        const oauthTokenSecret = "qdM8SOyt6ucAkbuHHiCbUpzVWqmacjoesQfDvRXDRiydQ";
+        const oauthConsumerKey = tokens.oauthConsumerKey;
+        const oauthConsumerSecret = tokens.oauthConsumerSecret;
+        const oauthToken = tokens.oauthToken; 
+        const oauthTokenSecret = tokens.oauthTokenSecret;
 
         const parameters = {
             oauth_consumer_key: this.customEncode(oauthConsumerKey),
@@ -78,6 +75,10 @@ export class ApiTwitterService {
             catchError(err => of(err.response.data) )
         )); 
         return response;
+    }
+
+    private customEncode(value) {
+        return encodeURIComponent(value);
     }
 
 }

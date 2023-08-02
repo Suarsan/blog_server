@@ -1,0 +1,34 @@
+type RrssDiffusion {
+    id:Int
+    createdAt:String
+    updatedAt:String
+    name:String!
+    content:String!
+    date:String!
+    uuid:String!
+    rrssConnection:RrssConnection!
+}
+
+type Query {
+    getRrssDiffusions:[RrssDiffusion]
+    getRrssDiffusion(name: String!):RrssDiffusion
+}
+
+type Mutation {
+    addRrssDiffusion(addRrssDiffusionInput: AddRrssDiffusionInput!): RrssDiffusion
+    deleteRrssDiffusion(deleteRrssDiffusionInput: DeleteRrssDiffusionInput!): RrssDiffusion!
+}
+
+input AddRrssDiffusionInput {
+    context: String!
+    name: String!
+    content: String!
+    date: String!
+    rrssConnectionName: String!
+}
+
+
+input DeleteRrssDiffusionInput {
+    context: String!
+    name: String!
+}

@@ -5,7 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AuthorsModule } from './modules/authors/authors.module';
 import { DatabaseModule } from './modules/database/database.module';
 import { PostsModule } from './modules/posts/posts.module';
-import { ApiTwitterModule } from './modules/api-twitter/api-twitter.module';
+import { RrssModule } from './modules/rrss/rrss.module';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { ApiTwitterModule } from './modules/api-twitter/api-twitter.module';
     }),
     AuthorsModule,
     PostsModule,
-    ApiTwitterModule
+    RrssModule
   ],
   controllers: [],
   providers: [],
