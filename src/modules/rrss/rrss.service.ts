@@ -98,8 +98,7 @@ export class RrssService {
     }
 
     async createAtJob(date, uuid) {
-        console.dir(`echo "curl http://127.0.0.1:5000/api-twitter/publish?uuid=${uuid}" | at ${date.toLocaleString().replace(/[-T:]/g, '').substring(2)}`);
-        exec(`echo "curl http://127.0.0.1:5000/api-twitter/publish?uuid=${uuid}" | at ${date.toLocaleString().replace(/[-T:]/g, '').substring(2)}`, (err, stdout, stderr) => {
+        exec(`echo "curl localhost:5001/api-twitter/publish?uuid=${uuid}" | at -t ${date.toLocaleString().replace(/[-T:]/g, '').substring(2)}`, (err, stdout, stderr) => {
             if (err) {
                 console.log('err: ' + err);
             } else {

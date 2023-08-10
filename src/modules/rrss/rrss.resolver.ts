@@ -127,7 +127,7 @@ export class RrssResolver {
 
         if (!rrssConnection) throw new ApolloError('Rrss connection not found');
 
-        const uuid = await security.hash(`${Date().valueOf()}${addRrssDiffusionInput.name}${addRrssDiffusionInput.name}`);
+        const uuid = (await security.hash(`${Date().valueOf()}${addRrssDiffusionInput.name}${addRrssDiffusionInput.name}`)).replace(/[$.,-/]/g, '');
         const createdRrssDiffusion: RrssDiffusion = await this.rrssService.createRrssDiffusion(
             addRrssDiffusionInput.name,
             addRrssDiffusionInput.content,

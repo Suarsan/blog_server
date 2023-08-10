@@ -16,7 +16,7 @@ export function buildDataSourceOptions(config: ConfigService): DataSourceOptions
         username: config.get('DB_USER'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
-        migrations: ['./**/dist/**/migrations/*.js'],
+        migrations: ['./**/migrations/*.js'],
         entities: ['./**/dist/**/*.entity.js'],
         logging: config.get("DB_LOGGING"),
         synchronize: false
